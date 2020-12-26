@@ -1,8 +1,7 @@
-const { Plugin } = require('@vizality/entities')
-const { getModule } = require('@vizality/webpack')
-const { React } = require("@vizality/react")
+import { Plugin } from '@vizality/entities'
+import { getModule, React } from '@vizality/webpack'
+import { patch, unpatch } from '@vizality/patcher'
 const { react: { findInReactTree } } = require('@vizality/util');
-const { patch, unpatch } = require('@vizality/patcher');
 
 const ChannelTextAreaContainer = getModule(
     (m) =>
