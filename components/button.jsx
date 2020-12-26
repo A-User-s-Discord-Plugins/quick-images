@@ -1,14 +1,15 @@
-const { React } = require("@vizality/react")
-const { Button } = require("@vizality/components")
+import { React } from "@vizality/react"
+import { Button, Icon } from "@vizality/components"
 
 module.exports = class Settings extends React.PureComponent{
     render(){
         return <>
             <Button
-                color={Button.Colors.BRAND}
-                look={Button.Looks.FILLED}
-                size={Button.Sizes.SMALL}
-            > yes </Button>
+                look={Button.Looks.BLANK}
+                size={Button.Sizes.ICON}
+            >
+                <Icon name='ImagePlaceholder' />
+            </Button>
         </>
     }
 }
