@@ -7,8 +7,11 @@ module.exports = class Settings extends React.PureComponent{
             <Button
                 look={Button.Looks.BLANK}
                 size={Button.Sizes.ICON}
+                className="qi-window-button"
             >
-                <Icon name='ImagePlaceholder' />
+                <Icon name='ImagePlaceholder'
+                    className="buttonWrapper-1ZmCpA"
+                />
             </Button>
         </>
     }

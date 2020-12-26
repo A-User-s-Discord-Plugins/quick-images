@@ -16,22 +16,28 @@ const SettingsButton = require("./components/button");
 
 module.exports = class QuickImages extends Plugin{
     onStart(){
-        patch("quick-images-button", ChannelTextAreaContainer.type, "render", (args, res) => {
-                // Add to the buttons.
-                const props = findInReactTree(
-                    res,
-                    (r) =>
-                        r && r.className && r.className.indexOf("buttons-") == 0
-                );
-                props.children.unshift(
-                    React.createElement(SettingsButton)
-                );
-
-                return res;
-            }
-        );
+        this.patchImageButton()
+        this.injectStyles('./styles/index.css');
     }
+
     onStop(){
         unpatch("quick-images-button")
+    }
+
+    patchImageButton(){
+        patch("quick-images-button", ChannelTextAreaContainer.type, "render", (args, res) => {
+            // Add to the buttons.
+            const props = findInReactTree(
+                res,
+                (r) =>
+                    r && r.className && r.className.indexOf("buttons-") == 0
+            );
+            props.children.unshift(
+                <><SettingsButton /></>
+            );
+
+            return res;
+        }
+        );
     }
 }
