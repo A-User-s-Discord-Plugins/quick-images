@@ -28,10 +28,6 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         return <>
             <Modal size={Modal.Sizes.LARGE} className="qi-modal-custom-size">
                 <Modal.Header>
-                    <FormTitle tag={FormTitle.Tags.H3}>Your images</FormTitle>
-                    <Modal.CloseButton onClick={closeModal} />
-                </Modal.Header>
-                <Modal.Content>
                     <div className="qi-navigation-bar">
                         <Button
                             look={Button.Looks.BLANK}
@@ -44,6 +40,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         >
                             <Icon name='ArrowBack' />
                         </Button>
+                        <FormTitle tag={FormTitle.Tags.H3}>Select your image</FormTitle>
                         <div className="qi-space" />
                         <Button
                             look={Button.Looks.BLANK}
@@ -57,6 +54,8 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             <Icon name='ArrowRight' />
                         </Button>
                     </div>
+                </Modal.Header>
+                <Modal.Content>
                     <div className="qi-grid">
                         {
                             this.openImages()
@@ -71,6 +70,19 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         }}
                     />
                 </Modal.Content>
+                <Modal.Footer>
+                    <div className="qi-space" />
+                    <Button
+                        look={Button.Looks.LINK}
+                        size={Button.Sizes.SMALL}
+                        color={Button.Colors.WHITE}
+                        onClick={(e) => {
+                            e.stopPropagation(); this.prevSetOfImages(); this.openImages()
+                        }}
+                    >
+                        Close
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </>
     }

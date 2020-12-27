@@ -3,9 +3,9 @@
 }
 
 .qi-modal-custom-size{
-    height: 620px;
+    height: 640px;
     min-height: 0;
-    max-height: 620px;
+    max-height: 640px;
     max-width: 1200px;
     width: 1200px;
 }
@@ -13,7 +13,13 @@
 .qi-navigation-bar{
     display: flex;
     flex-direction: row;
-    margin-bottom: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.qi-navigation-bar h3{
+    margin-bottom: 0;
+    margin-left: 20px;
 }
 
 .qi-space{
@@ -22,6 +28,7 @@
 
 .qi-message-textbox{
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .qi-grid{
