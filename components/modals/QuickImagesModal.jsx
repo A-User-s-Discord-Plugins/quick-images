@@ -5,6 +5,8 @@ const { close: closeModal } = require('@vizality/modal')
 const fs = require("fs")
 const path = require("path")
 
+const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
+
 const FormTitle = getModuleByDisplayName('FormTitle', false)
 
 module.exports = class QuickImagesModal extends React.PureComponent {
@@ -28,8 +30,23 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         let images = this.outputImages("D:vizality/addons/plugins/quick-images/images")
         console.log(images)
         return images.map((img) => {
-            return <img src={"data:image/png;base64, " + fs.readFileSync("D:vizality/addons/plugins/quick-images/images/" + img, { encoding: "base64"} )} />
+            let actualImage = "D:vizality/addons/plugins/quick-images/images/" + img
+            return <img src={"data:image/png;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
+            onClick={(e) => {
+                e.stopPropagation();
+                this.uploadImage(fs.readFileSync(actualImage), img)
+            }} />
         })
+    }
+
+    async uploadImage(fileContents, fileName){
+        const { upload } = await getModule('cancel', 'upload')
+        
+        // let arraybuffer = Uint8Array.from(fileContents).buffer
+        // console.log(arraybuffer)
+        let fileprop = new File([fileContents], fileName);
+        console.log(fileprop)
+        upload(getChannelId(), fileprop, "")
     }
     
     outputImages(dirname) {
