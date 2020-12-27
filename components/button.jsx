@@ -4,6 +4,8 @@ const { open: openModal } = require('@vizality/modal')
 
 import QuickImagesModal from "./modals/QuickImagesModal"
 
+
+
 module.exports = class QuickImagesButton extends React.PureComponent{
     render(){
         return <>

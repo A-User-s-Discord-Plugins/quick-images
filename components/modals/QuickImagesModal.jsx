@@ -11,35 +11,77 @@ const FormTitle = getModuleByDisplayName('FormTitle', false)
 
 const folderPath = vizality.api.settings._fluxProps(this.addonId).getSetting("folderPath")
 
+
 module.exports = class QuickImagesModal extends React.PureComponent {
+    constructor(props){
+        super(props)
+
+        this.images = this.outputImages(folderPath) //Declarates images and get all imgaes in the folder path
+        this.rest; //Declarates res
+        this.listQueue; //Declarates listQueue
+    }
     render() {
         return <>
-            <Modal size={Modal.Sizes.LARGE}>
+            <Modal size={Modal.Sizes.LARGE} className="qi-custom-size">
                 <Modal.Header>
                     <FormTitle tag={FormTitle.Tags.H3}>Your images</FormTitle>
                     <Modal.CloseButton onClick={closeModal} />
                 </Modal.Header>
                 <Modal.Content>
-                    {
-                        this.openImageList()
-                    }
+                    <div className="qi-grid">
+                        {
+                            this.openImages()
+                        }
+                    </div>
+                    <span onClick={() => {this.configImageQueue()}}> load more </span>
                 </Modal.Content>
             </Modal>
         </>
     }
 
-    openImageList(){
-        console.log(folderPath)
-        let images = this.outputImages(folderPath)
-        console.log(images)
-        return images.map((img) => {
+    openImages(){
+        return this.renderImages(this.configImageQueue())
+    }
+
+    configImageQueue(){
+        console.log(folderPath) // Logs the folder path
+        console.log(this.images) // Logs all images
+        console.log(this.rest)
+        
+        if (this.rest == null) {
+            console.log(this.images);
+            this.listQueue = this.images;
+            console.log("rest is undefined, setting listQueue to images")
+        } else {
+            console.log(this.rest);
+            this.listQueue = this.rest;
+            console.log("rest has value, setting listQueue to rest")
+        }
+
+        console.log(this.listQueue)
+
+        this.rest = this.listQueue.splice(20, Number.MAX_VALUE)
+
+        console.log(this.rest)
+        console.log(this.listQueue)
+        return this.listQueue
+    }
+
+    renderImages(imageArray){
+        return imageArray.map((img) => {
             let actualImage = folderPath + "/" + img
-            return <img src={"data:image/png;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
-            onClick={(e) => {
-                e.stopPropagation();
-                this.uploadImage(fs.readFileSync(actualImage), img)
-                closeModal()
-            }} />
+            return <>
+                <figure class="qi-image-item">
+                    <img src={"data:image/png;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
+                        className="qi-image-img"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            this.uploadImage(fs.readFileSync(actualImage), img)
+                            closeModal()
+                        }}
+                    />
+                </figure>
+            </>
         })
     }
 
@@ -51,8 +93,8 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         
         upload(getChannelId(), fileprop, "") // Uploads
     }
-    
-    outputImages(dirname) {
+
+    outputImages = function (dirname) {
         let filenames = fs.readdirSync(dirname)
         let images = filenames.filter(function (e) {
             let extname = path.extname(e).toLowerCase()
