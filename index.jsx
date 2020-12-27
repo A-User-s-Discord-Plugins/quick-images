@@ -3,6 +3,8 @@ import { getModule, React } from '@vizality/webpack'
 import { patch, unpatch } from '@vizality/patcher'
 const { react: { findInReactTree } } = require('@vizality/util');
 
+import Settings from "./components/settings/Settings"
+
 const ChannelTextAreaContainer = getModule(
     (m) =>
         m.type &&
@@ -17,6 +19,11 @@ module.exports = class QuickImages extends Plugin{
     onStart(){
         this.patchImageButton()
         this.injectStyles('./styles/index.css');
+        vizality.api.settings.registerAddonSettings({
+            id: this.addonId,
+            heading: 'Quick Images',
+            render: Settings
+        })
     }
 
     onStop(){
