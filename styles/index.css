@@ -1,13 +1,27 @@
-.qi-window-button{
+.qi-button{
     color: var(--interactive-normal);
 }
 
-.qi-custom-size{
-    height: 700px !important;
+.qi-modal-custom-size{
+    height: 620px;
     min-height: 0;
-    max-height: 700px;
+    max-height: 620px;
     max-width: 1200px;
     width: 1200px;
+}
+
+.qi-navigation-bar{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.qi-space{
+    margin-left: auto;
+}
+
+.qi-message-textbox{
+    width: 100%;
 }
 
 .qi-grid{

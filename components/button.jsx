@@ -12,7 +12,7 @@ module.exports = class QuickImagesButton extends React.PureComponent{
             <Button
                 look={Button.Looks.BLANK}
                 size={Button.Sizes.ICON}
-                className="qi-window-button"
+                className="qi-button"
                 onClick={(e) => {
                     openModal(() => <QuickImagesModal />)
                 }}
