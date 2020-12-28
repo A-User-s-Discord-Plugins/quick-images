@@ -93,38 +93,17 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
 
     outputImages = function (dirname) {
-        let filenames = fs.readdirSync(dirname) // Get all itens in the
+        let filenames = fs.readdirSync(dirname) // Get all itens in the folder
 
-        let images = filenames.filter(function (e) {
-            let extname = path.extname(e).toLowerCase() // Get the file extension
-            if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.gif') return e // Excludes everything except images
+        let images = filenames.filter(function (file) { // Filters for a video or file
+            let extname = path.extname(file).toLowerCase() // Get the file extension
+            if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.gif' || extname === '.mp4') return file // Excludes everything except images and videos
         });
 
         return images
     }
 
     configImageSet(){
-        console.log(folderPath) // Logs the folder path
-        // console.log(this.allImages) // Logs all images
-        // console.log(this.rest)
-        
-        // if (this.rest == null) {
-        //     console.log(this.allImages)
-        //     this.listQueue = this.allImages
-        //     console.log("rest is undefined, setting listQueue to images")
-        // } else {
-        //     console.log(this.rest)
-        //     this.listQueue.push(this.rest)
-        //     console.log("rest has value, setting listQueue to rest")
-        // }
-
-        // console.log(this.listQueue)
-
-        // this.rest = this.listQueue.splice(20, Number.MAX_VALUE)
-
-        // console.log(this.rest)
-        // console.log(this.listQueue)
-
         for (var i = 0; i < this.allImages.length; i++) {
             if (i > this.startNum -1 && i < this.endNum) { // if i is behind this.startNum and this.startNum 
                 this.currentImages.push(this.allImages[i])
