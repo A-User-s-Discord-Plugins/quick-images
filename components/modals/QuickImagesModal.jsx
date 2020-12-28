@@ -127,6 +127,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             <video src={"data:video/mp4;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
                                 autoplay="autoplay"
                                 muted
+                                loop
                                 className="qi-image-img"
                                 onClick={(e) => {
                                     e.stopPropagation();
