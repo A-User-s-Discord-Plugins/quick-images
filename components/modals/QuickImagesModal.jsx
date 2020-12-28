@@ -10,13 +10,6 @@ const FormTitle = getModuleByDisplayName('FormTitle', false)
 
 const folderPath = vizality.api.settings._fluxProps(this.addonId).getSetting("folderPath")
 
-const getFolderName = function() {
-    let arrayOfPaths = folderPath.split("/")
-    console.log(arrayOfPaths)
-    console.log(arrayOfPaths[arrayOfPaths.lenght])
-    return arrayOfPaths[arrayOfPaths.lenght - 1]
-}
-
 module.exports = class QuickImagesModal extends React.PureComponent {
     constructor(props){
         super(props)
