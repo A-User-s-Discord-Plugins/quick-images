@@ -10,6 +10,12 @@ const FormTitle = getModuleByDisplayName('FormTitle', false)
 
 const folderPath = vizality.api.settings._fluxProps(this.addonId).getSetting("folderPath")
 
+const getFolderName = function() {
+    let arrayOfPaths = folderPath.split("/")
+    console.log(arrayOfPaths)
+    console.log(arrayOfPaths[arrayOfPaths.lenght])
+    return arrayOfPaths[arrayOfPaths.lenght - 1]
+}
 
 module.exports = class QuickImagesModal extends React.PureComponent {
     constructor(props){
@@ -45,7 +51,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            disabled={this.startNum + 10 > folderPath.length}
+                            disabled={this.endNum > this.allImages.length}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.nextSetOfImages(); this.openImages()
@@ -114,20 +120,29 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
         return this.currentImages
     }
-
     
     renderImages(imageArray){
         return imageArray.map((img) => {
             let actualImage = folderPath + "/" + img
             return <>
-                <figure class="qi-image-item">
-                    {
-                        path.extname(actualImage).toLowerCase() == ".mp4"
-                        ?
-                            <video src={"data:video/mp4;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
-                                autoplay="autoplay"
-                                muted
-                                loop
+                <div className="qi-item">
+                    <figure className="qi-image-item">
+                        {
+                            path.extname(actualImage).toLowerCase() == ".mp4"
+                            ?
+                                <video src={"data:video/mp4;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
+                                    autoplay="autoplay"
+                                    muted
+                                    loop
+                                    className="qi-image-img"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        this.uploadImage(fs.readFileSync(actualImage), img, this.message)
+                                        closeModal()
+                                    }}
+                                />
+                            :
+                            <img src={"data:image/png;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
                                 className="qi-image-img"
                                 onClick={(e) => {
                                     e.stopPropagation();
@@ -135,23 +150,16 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                                     closeModal()
                                 }}
                             />
-                        :
-                        <img src={"data:image/png;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
-                            className="qi-image-img"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                this.uploadImage(fs.readFileSync(actualImage), img, this.message)
-                                closeModal()
-                            }}
-                        />
-                    }
-                </figure>
+                        }
+                    </figure>
+                    <span className="qi-item-name markup-2BOw-j">{path.basename(actualImage)}</span>
+                </div>
             </>
         })
     }
 
     nextSetOfImages(){
-        if (this.startNum + 10 > folderPath.length) return
+        if (this.endNum > this.allImages.length) return
         this.clearSetOfImages()
         this.startNum = this.startNum + 10
         this.endNum = this.endNum + 10

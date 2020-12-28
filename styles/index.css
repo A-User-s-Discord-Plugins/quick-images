@@ -3,9 +3,9 @@
 }
 
 .qi-modal-custom-size{
-    height: 640px;
+    /*height: 640px;*/
     min-height: 0;
-    max-height: 640px;
+    max-height: 1000px;
     max-width: 1200px;
     width: 1200px;
 }
@@ -28,7 +28,7 @@
 
 .qi-message-textbox{
     width: 100%;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 20px;
 }
 
@@ -36,7 +36,14 @@
     display: grid;
     grid-template-columns: repeat( auto-fill, minmax(190px, 1fr) );
     grid-gap: 7px;
-    height: 447px;
+    height: 500px;
+}
+
+.qi-item{
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .qi-image-item{
@@ -62,4 +69,8 @@
 .qi-image-item:hover .qi-image-img{
     width: 100%;
     margin-left: 0;
+}
+
+.qi-item-name{
+    /* color: #fff; */
 }
