@@ -77,7 +77,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         size={Button.Sizes.SMALL}
                         color={Button.Colors.WHITE}
                         onClick={(e) => {
-                            e.stopPropagation(); this.prevSetOfImages(); this.openImages()
+                            closeModal()
                         }}
                     >
                         Close
@@ -121,14 +121,29 @@ module.exports = class QuickImagesModal extends React.PureComponent {
             let actualImage = folderPath + "/" + img
             return <>
                 <figure class="qi-image-item">
-                    <img src={"data:image/png;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
-                        className="qi-image-img"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            this.uploadImage(fs.readFileSync(actualImage), img, this.message)
-                            closeModal()
-                        }}
-                    />
+                    {
+                        path.extname(actualImage).toLowerCase() == ".mp4"
+                        ?
+                            <video src={"data:video/mp4;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
+                                autoplay="autoplay"
+                                muted
+                                className="qi-image-img"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    this.uploadImage(fs.readFileSync(actualImage), img, this.message)
+                                    closeModal()
+                                }}
+                            />
+                        :
+                        <img src={"data:image/png;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
+                            className="qi-image-img"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                this.uploadImage(fs.readFileSync(actualImage), img, this.message)
+                                closeModal()
+                            }}
+                        />
+                    }
                 </figure>
             </>
         })

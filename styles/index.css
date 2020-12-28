@@ -35,6 +35,7 @@
     display: grid;
     grid-template-columns: repeat( auto-fill, minmax(190px, 1fr) );
     grid-gap: 7px;
+    height: 447px;
 }
 
 .qi-image-item{
