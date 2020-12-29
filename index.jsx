@@ -11,7 +11,7 @@ const { contextMenu: { openContextMenu } } = require('@vizality/webpack')
 //Modules
 import Settings from "./components/Settings"
 import QuickImageButton from "./components/button"
-import LazyVideoContextMenu from "./components/context menus/to patch/LazyVideo"
+// import LazyVideoContextMenu from "./components/context menus/to patch/LazyVideo"
 const ChannelTextAreaContainer = getModule(m => m.type?.render?.displayName === "ChannelTextAreaContainer");
 const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
 const { Permissions } = getModule("Permissions")
@@ -28,7 +28,7 @@ module.exports = class QuickImages extends Plugin {
         this.injectStyles('./styles/index.css');
         this.patchImageButton()
         this.patchDownloadImageInFolderContextMenu()
-        this.patchDownloadVideoInFolderButton()
+        // this.patchDownloadVideoInFolderButton()
         vizality.api.settings.registerAddonSettings({
             id: this.addonId,
             heading: 'Quick Images',
@@ -82,19 +82,19 @@ module.exports = class QuickImages extends Plugin {
         });
     }
 
-    patchDownloadVideoInFolderButton() {
-        console.log("patching context menu")
-        patch("quick-video-download-context-menu", LazyVideo, "default", (args, res) => {
-            console.log(res)
-            let downloadbutton = findInReactTree(res, 
-                e => e && typeof e.className === 'string' && e.className === "metadataDownload-1fk90V" !== -1
-            )
-            console.log(downloadbutton)
-            downloadbutton.onClick = console.log("yes")
+    // patchDownloadVideoInFolderButton() {
+    //     console.log("patching context menu")
+    //     patch("quick-video-download-context-menu", LazyVideo, "default", (args, res) => {
+    //         console.log(res)
+    //         let downloadbutton = findInReactTree(res, 
+    //             e => e && typeof e.className === 'string' && e.className === "metadataDownload-1fk90V" !== -1
+    //         )
+    //         console.log(downloadbutton)
+    //         downloadbutton.onClick = console.log("yes")
 
-            return res;
-        });
-    }
+    //         return res;
+    //     });
+    // }
 
     checkUploadPerms(channel) {
         return UserPermissions.can(
