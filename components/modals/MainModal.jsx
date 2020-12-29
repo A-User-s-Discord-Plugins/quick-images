@@ -10,7 +10,9 @@ const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
 const TextInput = getModuleByDisplayName("TextInput")
 const FormTitle = getModuleByDisplayName('FormTitle')
 
-const folderPath = path.normalize(vizality.api.settings._fluxProps(this.addonId).getSetting("folderPath"))
+import PathManager from "./../../modules/PathManager"
+
+const folderPath = PathManager.getQuickFolderPath()
 
 module.exports = class QuickImagesModal extends React.PureComponent {
     constructor(props){

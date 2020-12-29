@@ -6,9 +6,6 @@ import { Menu } from '@vizality/components'
 import DeleteConfirmationModal from "./../modals/deleteConfirmation"
 import RenameModal from "./../modals/Rename"
 
-
-const folderPath = vizality.api.settings._fluxProps(this.addonId).getSetting("folderPath")
-
 module.exports = class FileContextMenu extends React.Component {
     render() {
         return <>

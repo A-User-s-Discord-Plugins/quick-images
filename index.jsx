@@ -6,6 +6,7 @@ import { patch, unpatch } from '@vizality/patcher'
 import { Menu } from '@vizality/components'
 import { findInReactTree } from '@vizality/util/react'
 import DownloadImage from "./modules/DownloadImage"
+import PathManager from "./modules/PathManager"
 const { contextMenu: { openContextMenu } } = require('@vizality/webpack')
  
 //Modules
@@ -19,9 +20,6 @@ const UserPermissions = getModule("getHighestRole");
 const { getChannel } = getModule("getChannel");
 const NativeImageContextMenu = getModule(m => m.default?.displayName === 'NativeImageContextMenu');
 const LazyVideo = getModuleByDisplayName("LazyVideo")
-
-//Vars
-const folderPath = vizality.api.settings._fluxProps(this.addonId).getSetting("folderPath")
 
 module.exports = class QuickImages extends Plugin {
     onStart() {
@@ -71,7 +69,8 @@ module.exports = class QuickImages extends Plugin {
                     <Menu.MenuItem 
                         id="download-image-to-folder"
                         label="Download image to QuickFolder"
-                        action={() => {DownloadImage.downloadImage(fileUrl, folderPath + "/" + path.parse(fileUrl).base, function() {
+                        action={() => {
+                            DownloadImage.downloadImage(fileUrl, PathManager.getQuickFolderPath() + "/" + path.parse(fileUrl).base, function() {
                             console.log(`yes`);
                         })}}
                     />
