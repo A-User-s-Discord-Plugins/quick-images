@@ -42,6 +42,21 @@
     height: 500px;
 }
 
+.qi-unexpected-act{
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.qi-unexpected-act-quickfolder{
+    margin: 0 auto;
+    flex: 0 1 auto;
+    width: 415px;
+    height: 200px;
+    background-image: url("/assets/b669713872b43ca42333264abf9c858e.svg");
+}
+
 .qi-item{
     overflow: hidden;
     display: flex;

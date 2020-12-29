@@ -57,19 +57,9 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                     </div>
                 </Modal.Header>
                 <Modal.Content>
-                    <div className="qi-grid">
-                        {
-                            this.openImages()
-                        }
-                    </div>
-                    <TextInput
-                        autoFocus
-                        className="qi-message-textbox"
-                        placeholder="Here goes the message that you wanna send"
-                        onChange={(value) => {
-                            this.message.content = value
-                        }}
-                    />
+                    {
+                        this.openImages()
+                    }
                 </Modal.Content>
                 <Modal.Footer>
                     <div className="qi-space" />
@@ -90,7 +80,27 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
     openImages(){
         this.clearSetOfImages();
-        return this.renderFiles(this.configureFileSet())
+        let set = this.configureFileSet();
+        console.log(Array.isArray(set) && set.length)
+        if (Array.isArray(set) && set.length) {
+            return <><div className="qi-grid">
+                {this.renderFiles(set)}
+                <TextInput
+                    autoFocus
+                    className="qi-message-textbox"
+                    placeholder="Here goes the message that you wanna send"
+                    onChange={(value) => {
+                        this.message.content = value
+                    }}
+                />
+            </div></>
+        }
+        else {
+            return <><div className="qi-unexpected-act">
+                <div className="image-1GzsFd marginBottom40-2vIwTv qi-unexpected-act-quickfolder" />
+                <div className="text-GwUZgS marginTop8-1DLZ1n">Looks like that your folder is empty. Start adding images and videos!</div>
+            </div></>
+        }
     }
 
     outputFiles = function (dirname) {
@@ -179,5 +189,9 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         console.log(fileprop)
         
         upload(getChannelId(), fileprop, messsage) // Uploads
+    }
+
+    crashDiscord(){ //Debugging feautre
+        return Array.isArray(unexistent_var)
     }
 }
