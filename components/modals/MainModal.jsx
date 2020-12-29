@@ -89,15 +89,15 @@ module.exports = class QuickImagesModal extends React.PureComponent {
             if (Array.isArray(set) && set.length) {
                 return <><div className="qi-grid">
                     {this.renderFiles(set)}
-                    <TextInput
-                        autoFocus
-                        className="qi-message-textbox"
-                        placeholder="Here goes the message that you wanna send"
-                        onChange={(value) => {
-                            this.message.content = value
-                        }}
-                    />
-                </div></>
+                </div>
+                <TextInput
+                    autoFocus
+                    className="qi-message-textbox"
+                    placeholder="Here goes the message that you wanna send"
+                    onChange={(value) => {
+                        this.message.content = value
+                    }}
+                /></>
             }
             else {
                 return this.errorInProcess("Looks like that your QuickFolder is empty. Start adding images and videos!")
