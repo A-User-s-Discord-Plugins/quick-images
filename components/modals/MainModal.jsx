@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import { React, getModule, getModuleByDisplayName } from "@vizality/webpack"
 const { openContextMenu } = require("@vizality/webpack").contextMenu
-import { Modal, Icon, Button } from "@vizality/components"
+import { Modal, Icon, Button, Anchor } from "@vizality/components"
 const { close: closeModal } = require('@vizality/modal')
 
 import ContextMenu from "../context menus/FileContextMenu"
@@ -16,7 +16,6 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     constructor(props){
         super(props)
 
-        this.allImages = this.outputFiles(folderPath) //Declarates images and get all imgaes in the folder path
         this.startNum = 0; //Declarates startNum
         this.endNum = 10; //Declarates endNum
         this.currentImages = [];
@@ -33,7 +32,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            disabled={this.startNum <= 0}
+                            disabled={fs.existsSync(folderPath) ? this.startNum <= 0 : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.prevSetOfImages(); this.openImages()
@@ -46,7 +45,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            disabled={this.endNum > this.allImages.length}
+                            disabled={fs.existsSync(folderPath) ? this.endNum > this.allImages.length : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.nextSetOfImages(); this.openImages()
@@ -79,27 +78,29 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
 
     openImages(){
-        this.clearSetOfImages();
-        let set = this.configureFileSet();
-        console.log(Array.isArray(set) && set.length)
-        if (Array.isArray(set) && set.length) {
-            return <><div className="qi-grid">
-                {this.renderFiles(set)}
-                <TextInput
-                    autoFocus
-                    className="qi-message-textbox"
-                    placeholder="Here goes the message that you wanna send"
-                    onChange={(value) => {
-                        this.message.content = value
-                    }}
-                />
-            </div></>
-        }
-        else {
-            return <><div className="qi-unexpected-act">
-                <div className="image-1GzsFd marginBottom40-2vIwTv qi-unexpected-act-quickfolder" />
-                <div className="text-GwUZgS marginTop8-1DLZ1n">Looks like that your folder is empty. Start adding images and videos!</div>
-            </div></>
+        if (fs.existsSync(folderPath)){
+            this.allImages = this.outputFiles(folderPath)
+            this.clearSetOfImages();
+            let set = this.configureFileSet();
+            console.log(Array.isArray(set) && set.length)
+            if (Array.isArray(set) && set.length) {
+                return <><div className="qi-grid">
+                    {this.renderFiles(set)}
+                    <TextInput
+                        autoFocus
+                        className="qi-message-textbox"
+                        placeholder="Here goes the message that you wanna send"
+                        onChange={(value) => {
+                            this.message.content = value
+                        }}
+                    />
+                </div></>
+            }
+            else {
+                return this.errorInProcess("Looks like that your QuickFolder is empty. Start adding images and videos!")
+            }
+        } else {
+            return this.errorInProcess(<><span>Looks like that your didn't set a QuickFolder. </span> <Anchor type='plugin' addonId='quick-images'>Setup one right now</Anchor></>)
         }
     }
 
@@ -191,7 +192,10 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         upload(getChannelId(), fileprop, messsage) // Uploads
     }
 
-    crashDiscord(){ //Debugging feautre
-        return Array.isArray(unexistent_var)
+    errorInProcess(text){
+        return <><div className="qi-unexpected-act">
+            <div className="image-1GzsFd marginBottom40-2vIwTv qi-unexpected-act-quickfolder" />
+            <div className="text-GwUZgS marginTop8-1DLZ1n">{text}</div>
+        </div></>
     }
 }
