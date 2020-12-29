@@ -10,12 +10,13 @@ const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
 const TextInput = getModuleByDisplayName("TextInput")
 const FormTitle = getModuleByDisplayName('FormTitle')
 
-const folderPath = vizality.api.settings._fluxProps(this.addonId).getSetting("folderPath")
+const folderPath = path.normalize(vizality.api.settings._fluxProps(this.addonId).getSetting("folderPath"))
 
 module.exports = class QuickImagesModal extends React.PureComponent {
     constructor(props){
         super(props)
 
+        this.allImages = [];
         this.startNum = 0; //Declarates startNum
         this.endNum = 10; //Declarates endNum
         this.currentImages = [];
@@ -40,8 +41,10 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         >
                             <Icon name='ArrowBack' />
                         </Button>
-                        <FormTitle tag={FormTitle.Tags.H3}>Select your image</FormTitle>
+                        
+                        <FormTitle tag={FormTitle.Tags.H3}>Choose File(s)</FormTitle>
                         <div className="qi-space" />
+
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
