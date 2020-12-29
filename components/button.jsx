@@ -2,9 +2,7 @@ import { React } from "@vizality/react"
 import { Button, Icon } from "@vizality/components"
 const { open: openModal } = require('@vizality/modal')
 
-import QuickImagesModal from "./modals/QuickImagesModal"
-
-
+import QuickImagesModal from "./modals/MainModal"
 
 module.exports = class QuickImagesButton extends React.PureComponent{
     render(){

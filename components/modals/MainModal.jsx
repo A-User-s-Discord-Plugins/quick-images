@@ -1,12 +1,14 @@
+import fs from "fs"
+import path from "path"
 import { React, getModule, getModuleByDisplayName } from "@vizality/webpack"
+const { openContextMenu } = require("@vizality/webpack").contextMenu
 import { Modal, Icon, Button } from "@vizality/components"
 const { close: closeModal } = require('@vizality/modal')
-const fs = require("fs")
-const path = require("path")
 
+import ContextMenu from "../context menus/FileContextMenu"
 const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
-const TextInput = getModuleByDisplayName("TextInput", false);
-const FormTitle = getModuleByDisplayName('FormTitle', false)
+const TextInput = getModuleByDisplayName("TextInput")
+const FormTitle = getModuleByDisplayName('FormTitle')
 
 const folderPath = vizality.api.settings._fluxProps(this.addonId).getSetting("folderPath")
 
@@ -14,7 +16,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     constructor(props){
         super(props)
 
-        this.allImages = this.outputImages(folderPath) //Declarates images and get all imgaes in the folder path
+        this.allImages = this.outputFiles(folderPath) //Declarates images and get all imgaes in the folder path
         this.startNum = 0; //Declarates startNum
         this.endNum = 10; //Declarates endNum
         this.currentImages = [];
@@ -25,7 +27,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
     render() {
         return <>
-            <Modal size={Modal.Sizes.LARGE} className="qi-modal-custom-size">
+            <Modal size={Modal.Sizes.LARGE} className="qi-modal-main">
                 <Modal.Header>
                     <div className="qi-navigation-bar">
                         <Button
@@ -88,21 +90,21 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
     openImages(){
         this.clearSetOfImages();
-        return this.renderImages(this.configImageSet())
+        return this.renderFiles(this.configureFileSet())
     }
 
-    outputImages = function (dirname) {
+    outputFiles = function (dirname) {
         let filenames = fs.readdirSync(dirname) // Get all itens in the folder
 
         let images = filenames.filter(function (file) { // Filters for a video or file
             let extname = path.extname(file).toLowerCase() // Get the file extension
-            if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.gif' || extname === '.mp4') return file // Excludes everything except images and videos
+            if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.gif' || extname === '.mp4') return file // Excludes everything except images and videos. Also sorry for this mess
         });
 
         return images
     }
 
-    configImageSet(){
+    configureFileSet(){
         for (var i = 0; i < this.allImages.length; i++) {
             if (i > this.startNum -1 && i < this.endNum) { // if i is behind this.startNum and this.startNum 
                 this.currentImages.push(this.allImages[i])
@@ -114,38 +116,39 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         return this.currentImages
     }
     
-    renderImages(imageArray){
+    renderFiles(imageArray){
         return imageArray.map((img) => {
-            let actualImage = folderPath + "/" + img
+            let actualFile = folderPath + "/" + img
             return <>
-                <div className="qi-item">
-                    <figure className="qi-image-item">
+                <div className="qi-item"
+                    onContextMenu={e => openContextMenu(e, () => <ContextMenu
+                        file={actualFile}
+                        folder={folderPath}
+                        fileName={img}
+                    />
+                    )}>
+                    <figure className="qi-image-item"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            this.uploadImage(fs.readFileSync(actualFile), img, this.message)
+                            closeModal()
+                        }}>
                         {
-                            path.extname(actualImage).toLowerCase() == ".mp4"
+                            path.extname(actualFile).toLowerCase() == ".mp4"
                             ?
-                                <video src={"data:video/mp4;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
+                                <video src={"data:video/mp4;base64, " + fs.readFileSync(actualFile, { encoding: "base64" })}
                                     autoplay="autoplay"
                                     muted
                                     loop
                                     className="qi-image-img"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        this.uploadImage(fs.readFileSync(actualImage), img, this.message)
-                                        closeModal()
-                                    }}
                                 />
                             :
-                            <img src={"data:image/png;base64, " + fs.readFileSync(actualImage, { encoding: "base64" })}
+                            <img src={"data:image/png;base64, " + fs.readFileSync(actualFile, { encoding: "base64" })}
                                 className="qi-image-img"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    this.uploadImage(fs.readFileSync(actualImage), img, this.message)
-                                    closeModal()
-                                }}
                             />
                         }
                     </figure>
-                    <span className="qi-item-name markup-2BOw-j">{path.basename(actualImage)}</span>
+                    <span className="qi-item-name markup-2BOw-j">{path.basename(actualFile)}</span>
                 </div>
             </>
         })

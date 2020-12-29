@@ -6,7 +6,7 @@ const { updateSetting, getSetting } = vizality.api.settings._fluxProps(this.addo
 module.exports = class Settings extends React.PureComponent {
     render() {
         return <>
-            <h2>Folder path</h2>
+            <h2>QuickFolder path</h2>
             <TextInput
                 autoFocus
                 note={`Here you'll put the folder where you wanna get your images. Example: C:/Users/auser/Pictures`}
