@@ -16,7 +16,7 @@ module.exports = class DeleteConfirmationModal extends React.PureComponent {
         return <>
             <Modal size={Modal.Sizes.MEDIUM} className="qi-modal-rename">
                 <Modal.Header>
-                    <FormTitle tag={FormTitle.Tags.H3}>Delete file</FormTitle>
+                    <FormTitle tag={FormTitle.Tags.H3}>Rename file</FormTitle>
                 </Modal.Header>
                 <Modal.Content>
                     <TextInput
