@@ -43,7 +43,7 @@ module.exports = class QuickImages extends Plugin {
     patchImageButton() {
         console.log("patching image button")
         patch("quick-images-button", ChannelTextAreaContainer.type, "render", (args, res) => {
-            if (args[0].className !== "channelTextAreaUpload-3t7EIx marginTop8-1DLZ1n" && this.checkUploadPerms(getChannel(getChannelId()))) { // Check if we
+            if (args[0].className !== "channelTextAreaUpload-3t7EIx marginTop8-1DLZ1n" && this.checkUploadPerms(getChannel(getChannelId()))) { // Check if we're not patching in the ChannelTextAreaContainer of the Upload Modal
                 // Add to the buttons.
                 const props = findInReactTree(
                     res,
