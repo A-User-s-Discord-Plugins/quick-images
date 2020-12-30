@@ -35,7 +35,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            disabled={fs.existsSync(folderPath) ? this.startNum <= 0 : true}
+                            disabled={PathManager.quickFolderExists ? this.startNum <= 0 : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.prevSetOfImages(); this.openImages()
@@ -50,7 +50,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            disabled={fs.existsSync(folderPath) ? this.endNum > this.allImages.length : true}
+                            disabled={PathManager.quickFolderExists ? this.endNum > this.allImages.length : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.nextSetOfImages(); this.openImages()
@@ -83,7 +83,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
 
     openImages(){
-        if (fs.existsSync(folderPath)){
+        if (PathManager.quickFolderExists){
             this.allImages = this.outputFiles(folderPath)
             this.clearSetOfImages();
             let set = this.configureFileSet();
