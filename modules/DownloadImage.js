@@ -1,5 +1,5 @@
 import fs from "fs"
-import { http } from "@vizality"
+import * as http from '@vizality/http';
 
 module.exports = async function (url, dest) {
     try {

@@ -1,20 +1,20 @@
-import { TextInput, SwitchItem } from "@vizality/components/settings"
 import { React } from "@vizality/react"
+import { Icon } from "@vizality/components"
+import TextInputWithButton from "./TextInputWithButton"
 
 const { updateSetting, getSetting } = vizality.api.settings._fluxProps(this.addonId)
 
 module.exports = class Settings extends React.PureComponent {
     render() {
-        return <>
-            <h2>QuickFolder path</h2>
-            <TextInput
-                autoFocus
-                note={`Here you'll put the folder where you wanna get your images. Example: C:/Users/auser/Pictures`}
+        return (<>
+            <TextInputWithButton
                 defaultValue={getSetting('folderPath')}
-                onChange={(value) => {
-                    updateSetting('folderPath', value)
-                }}
-            />
-        </>
+                onChange={(value) => updateSetting('folderPath', value)}
+                buttonOnClick={() => DiscordNative.fileManager.showOpenDialog({ properties: ['openDirectory'] }).then(result => updateSetting('folderPath', result[0]))}
+                title="QuickFolder"
+                buttonText={"Select Folder"}
+                buttonIcon="Folder"
+            ></TextInputWithButton>
+        </>)
     }
 }

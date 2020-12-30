@@ -23,6 +23,7 @@ const LazyVideo = getModuleByDisplayName("LazyVideo")
 module.exports = class QuickImages extends Plugin {
     onStart() {
         this.injectStyles('./styles/index.css');
+        this.injectStyles('./styles/settings.css');
         this.patchImageButton()
         this.patchDownloadImageInFolderContextMenu()
         // this.patchDownloadVideoInFolderButton()
@@ -42,19 +43,17 @@ module.exports = class QuickImages extends Plugin {
     patchImageButton() {
         console.log("patching image button")
         patch("quick-images-button", ChannelTextAreaContainer.type, "render", (args, res) => {
-            // Add to the buttons.
-            const props = findInReactTree(
-                res,
-                (r) =>
-                    r && r.className && r.className.indexOf("buttons-") == 0
-            );
-
-            if (this.checkUploadPerms(getChannel(getChannelId()))) {
+            if (args[0].className !== "channelTextAreaUpload-3t7EIx marginTop8-1DLZ1n" && this.checkUploadPerms(getChannel(getChannelId()))) { // Check if we
+                // Add to the buttons.
+                const props = findInReactTree(
+                    res,
+                    (r) =>
+                        r && r.className && r.className.indexOf("buttons-") == 0
+                );
                 props.children.unshift(
                     <><QuickImageButton /></>
                 );
             }
-
             return res;
         });
     }
