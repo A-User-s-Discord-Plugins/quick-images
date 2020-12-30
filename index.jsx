@@ -71,8 +71,9 @@ module.exports = class QuickImages extends Plugin {
                         label="Download image to QuickFolder"
                         action={() => {
                             DownloadImage.downloadImage(fileUrl, PathManager.getQuickFolderPath() + "/" + path.parse(fileUrl).base, function() {
-                            console.log(`yes`);
-                        })}}
+                                console.log(`yes`);
+                            })
+                        }}
                     />
                 </>
             );
@@ -103,27 +104,4 @@ module.exports = class QuickImages extends Plugin {
             channel.type == 1 || // DM
             channel.type == 3 // Group DM
     }
-     
-
-    // async downloadImage(url, dest) {
-    //     const file = fs.createWriteStream(dest);
-    //     await new Promise((resolve, reject) => {
-    //         request({
-    //             /* Here you should specify the exact link to the file you are trying to download */
-    //             uri: url,
-    //             gzip: true,
-    //         })
-    //             .pipe(file)
-    //             .on('finish', async () => {
-    //                 console.log(`The file is finished downloading.`);
-    //                 resolve();
-    //             })
-    //             .on('error', (error) => {
-    //                 reject(error);
-    //             });
-    //     })
-    //     .catch((err) => {
-    //         console.error(err);
-    //     });
-    // }
 }

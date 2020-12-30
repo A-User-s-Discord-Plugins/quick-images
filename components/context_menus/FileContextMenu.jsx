@@ -3,8 +3,8 @@ const { contextMenu: { closeContextMenu } } = require('@vizality/webpack')
 const { open: openModal } = require('@vizality/modal')
 
 import { Menu } from '@vizality/components'
-import DeleteConfirmationModal from "./../modals/deleteConfirmation"
-import RenameModal from "./../modals/Rename"
+import DeleteConfirmationModal from "../modals/deleteConfirmation"
+import RenameModal from "../modals/Rename"
 
 module.exports = class FileContextMenu extends React.Component {
     render() {

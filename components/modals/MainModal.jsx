@@ -10,7 +10,7 @@ const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
 const TextInput = getModuleByDisplayName("TextInput")
 const FormTitle = getModuleByDisplayName('FormTitle')
 
-import PathManager from "./../../modules/PathManager"
+import PathManager from "../../modules/PathManager"
 
 const folderPath = PathManager.getQuickFolderPath()
 
@@ -19,8 +19,10 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         super(props)
 
         this.allImages = [];
-        this.startNum = 0; //Declarates startNum
-        this.endNum = 10; //Declarates endNum
+        this.set = {
+            startNum: 0, //Declarates startNum
+            endNum: 10 //Declarates endNum
+        }
         this.currentImages = [];
 
         this.message = {
@@ -35,7 +37,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            disabled={PathManager.quickFolderExists ? this.startNum <= 0 : true}
+                            disabled={PathManager.quickFolderExists ? this.set.startNum <= 0 : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.prevSetOfImages(); this.openImages()
@@ -50,7 +52,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            disabled={PathManager.quickFolderExists ? this.endNum > this.allImages.length : true}
+                            disabled={PathManager.quickFolderExists ? this.set.endNum > this.allImages.length : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.nextSetOfImages(); this.openImages()
@@ -122,7 +124,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
     configureFileSet(){
         for (var i = 0; i < this.allImages.length; i++) {
-            if (i > this.startNum -1 && i < this.endNum) { // if i is behind this.startNum and this.startNum 
+            if (i > this.set.startNum - 1 && i < this.set.endNum) { // if i is behind this.startNum and this.startNum 
                 this.currentImages.push(this.allImages[i])
             }
         }
@@ -171,18 +173,18 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
 
     nextSetOfImages(){
-        if (this.endNum > this.allImages.length) return
+        if (this.set.endNum > this.allImages.length) return
         this.clearSetOfImages()
-        this.startNum = this.startNum + 10
-        this.endNum = this.endNum + 10
+        this.set.startNum = this.set.startNum + 10
+        this.set.endNum = this.set.endNum + 10
         this.forceUpdate()
     }
 
     prevSetOfImages() {
-        if (this.startNum <= 0) return
+        if (this.set.startNum <= 0) return
         this.clearSetOfImages()
-        this.startNum = this.startNum - 10
-        this.endNum = this.endNum - 10
+        this.set.startNum = this.set.startNum - 10
+        this.set.endNum = this.set.endNum - 10
         this.forceUpdate()
     }
 
