@@ -7,8 +7,7 @@ import { Menu } from '@vizality/components'
 import { findInReactTree } from '@vizality/util/react'
 import DownloadImage from "./modules/DownloadImage"
 import PathManager from "./modules/PathManager"
-const { contextMenu: { openContextMenu } } = require('@vizality/webpack')
- 
+
 //Modules
 import Settings from "./components/Settings"
 import QuickImageButton from "./components/button"
@@ -70,7 +69,7 @@ module.exports = class QuickImages extends Plugin {
                         id="download-image-to-folder"
                         label="Download image to QuickFolder"
                         action={() => {
-                            DownloadImage.downloadImage(fileUrl, PathManager.getQuickFolderPath() + "/" + path.parse(fileUrl).base,).then(function() {
+                            DownloadImage(fileUrl, PathManager.getQuickFolderPath() + "/" + path.parse(fileUrl).base,).then(function() {
                                 console.log(`yes`);
                             })
                         }}

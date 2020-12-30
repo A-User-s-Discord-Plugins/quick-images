@@ -1,8 +1,8 @@
 import fs from "fs"
 import { http } from "@vizality"
 
-module.exports.downloadImage = async function (url, dest) {
-    try{
+module.exports = async function (url, dest) {
+    try {
         let buffer = await http.get(url)
         return fs.promises.writeFile(dest, buffer.body);
     } catch (e) {

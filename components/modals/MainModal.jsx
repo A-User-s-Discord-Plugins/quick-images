@@ -1,7 +1,7 @@
 import fs from "fs"
 import path from "path"
 import { React, getModule, getModuleByDisplayName } from "@vizality/webpack"
-const { openContextMenu } = require("@vizality/webpack").contextMenu
+import { contextMenu } from '@vizality/webpack';
 import { Modal, Icon, Button, Anchor } from "@vizality/components"
 const { close: closeModal } = require('@vizality/modal')
 
@@ -139,7 +139,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
             let actualFile = folderPath + "/" + img
             return <>
                 <div className="qi-item"
-                    onContextMenu={e => openContextMenu(e, () => <ContextMenu
+                    onContextMenu={e => contextMenu.openContextMenu(e, () => <ContextMenu
                         file={actualFile}
                         folder={folderPath}
                         fileName={img}

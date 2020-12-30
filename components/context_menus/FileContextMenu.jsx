@@ -1,5 +1,5 @@
 import { React } from '@vizality/webpack'
-const { contextMenu: { closeContextMenu } } = require('@vizality/webpack')
+import { contextMenu } from '@vizality/webpack'
 const { open: openModal } = require('@vizality/modal')
 
 import { Menu } from '@vizality/components'
@@ -9,7 +9,7 @@ import RenameModal from "../modals/Rename"
 module.exports = class FileContextMenu extends React.Component {
     render() {
         return <>
-            <Menu.Menu onClose={closeContextMenu}>
+            <Menu.Menu onClose={contextMenu.closeContextMenu}>
                 <Menu.MenuItem
                     id="rename-file"
                     label="Rename"

@@ -1,7 +1,7 @@
 import fs from "fs"
-const { close: closeModal } = require('@vizality/modal')
 import { Modal, Button } from "@vizality/components"
 import { React, getModuleByDisplayName } from "@vizality/webpack"
+const { close: closeModal } = require('@vizality/modal')
 
 const FormTitle = getModuleByDisplayName('FormTitle')
 
