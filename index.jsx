@@ -70,7 +70,7 @@ module.exports = class QuickImages extends Plugin {
                         id="download-image-to-folder"
                         label="Download image to QuickFolder"
                         action={() => {
-                            DownloadImage.downloadImage(fileUrl, PathManager.getQuickFolderPath() + "/" + path.parse(fileUrl).base, function() {
+                            DownloadImage.downloadImage(fileUrl, PathManager.getQuickFolderPath() + "/" + path.parse(fileUrl).base,).then(function() {
                                 console.log(`yes`);
                             })
                         }}

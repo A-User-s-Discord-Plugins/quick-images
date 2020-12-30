@@ -1,10 +1,10 @@
 import fs from "fs"
 import { http } from "@vizality"
 
-module.exports.downloadImage = async function (url, dest, callbackOnDone) {
+module.exports.downloadImage = async function (url, dest) {
     try{
         let buffer = await http.get(url)
-        fs.writeFile(dest, buffer.body, () => callbackOnDone());
+        return fs.promises.writeFile(dest, buffer.body);
     } catch (e) {
         console.error(e)
     }
