@@ -5,7 +5,7 @@ const { openContextMenu } = require("@vizality/webpack").contextMenu
 import { Modal, Icon, Button, Anchor } from "@vizality/components"
 const { close: closeModal } = require('@vizality/modal')
 
-import ContextMenu from "../context menus/FileContextMenu"
+import ContextMenu from "../context_menus/FileContextMenu"
 const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
 const TextInput = getModuleByDisplayName("TextInput")
 const FormTitle = getModuleByDisplayName('FormTitle')
