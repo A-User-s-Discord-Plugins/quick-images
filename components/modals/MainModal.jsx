@@ -25,6 +25,8 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         }
         this.currentImages = [];
 
+        this.search = ""
+
         this.message = {
             content: ""
         };
@@ -46,8 +48,19 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             <Icon name='ArrowBack' />
                         </Button>
                         
-                        <FormTitle tag={FormTitle.Tags.H3}>Choose File(s)</FormTitle>
-                        <div className="qi-space" />
+                        {/* <FormTitle tag={FormTitle.Tags.H3}>Choose File(s)</FormTitle> */}
+                        {/* <div className="qi-space" /> */}
+
+                        <TextInput
+                            autoFocus
+                            className="qi-message-textbox"
+                            placeholder="Search images"
+                            onChange={(value) => {
+                                this.search = value
+                                this.forceUpdate()
+                                this.openImages()
+                            }}
+                        />
 
                         <Button
                             look={Button.Looks.BLANK}
@@ -95,7 +108,6 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                     {this.renderFiles(set)}
                 </div>
                 <TextInput
-                    autoFocus
                     className="qi-message-textbox"
                     placeholder="Here goes the message that you wanna send"
                     onChange={(value) => {
@@ -125,8 +137,15 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
     configureFileSet(){
         for (var i = 0; i < this.allImages.length; i++) {
+            let currentFile = this.allImages[i]
             if (i > this.set.startNum - 1 && i < this.set.endNum) { // if i is behind this.startNum and this.startNum 
-                this.currentImages.push(this.allImages[i])
+                if (currentFile.toUpperCase().indexOf(this.search.toUpperCase()) > -1) {
+                    this.currentImages.push(currentFile)
+                    // console.log(currentFile + " pushed")
+                } else {
+                    // console.log(currentFile + " not pushed")
+                }
+                
             }
         }
 
