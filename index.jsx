@@ -41,7 +41,7 @@ module.exports = class QuickImages extends Plugin {
     }
 
     patchImageButton() {
-        console.log("patching image button")
+        this.log("Patching image button")
         patch("quick-images-button", ChannelTextAreaContainer.type, "render", (args, res) => {
             if (args[0].className !== "channelTextAreaUpload-3t7EIx marginTop8-1DLZ1n" && this.checkUploadPerms(getChannel(getChannelId()))) { // Check if we're not patching in the ChannelTextAreaContainer of the Upload Modal
                 // Add to the buttons.
@@ -59,7 +59,7 @@ module.exports = class QuickImages extends Plugin {
     }
 
     patchDownloadImageInFolderContextMenu() {
-        console.log("patching context menu button")
+        this.log("Patching context menu button")
         patch("quick-images-download-context-menu-button", NativeImageContextMenu, "default", (args, res) => {
             let fileUrl = args[0].src
             res.props.children.unshift(

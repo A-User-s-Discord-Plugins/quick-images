@@ -1,7 +1,7 @@
 {
   "name": "Quick Images",
   "version": "0.0.B",
-  "description": "Adds support for running BetterDiscord plugins",
+  "description": "Quickly find images & videos in your own images folder",
   "icon": "assets/icon.png",
   "author": "A user"
 }

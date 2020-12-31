@@ -101,7 +101,8 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                     onChange={(value) => {
                         this.message.content = value
                     }}
-                /></>
+                />
+                </>
             }
             else {
                 return this.errorInProcess("Looks like that your QuickFolder is empty. Start adding images and videos!")
