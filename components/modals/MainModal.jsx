@@ -48,10 +48,11 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             <Icon name='ArrowBack' />
                         </Button>
                         
-                        {/* <FormTitle tag={FormTitle.Tags.H3}>Choose File(s)</FormTitle> */}
-                        {/* <div className="qi-space" /> */}
+                        <FormTitle tag={FormTitle.Tags.H3}>Choose File(s)</FormTitle>
+                        <div className="qi-space" />
 
                         <SearchBar
+                            className="qi-search-bar"
                             placeholder="Search"
                             query={this.search}
                             onChange={(val) => {

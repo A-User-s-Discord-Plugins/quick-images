@@ -57,6 +57,10 @@
     background-image: url("/assets/b669713872b43ca42333264abf9c858e.svg");
 }
 
+.qi-search-bar{
+    margin-right: 5px;
+}
+
 .qi-item{
     overflow: hidden;
     display: flex;
