@@ -55,10 +55,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             placeholder="Search"
                             query={this.search}
                             onChange={(val) => {
-                                console.log(val);
-                                console.log("Search prev val: " + this.search)
                                 this.search = val
-                                console.log("Search after val: " + this.search)
                                 this.forceUpdate()
                                 this.openImages()
                             }}
