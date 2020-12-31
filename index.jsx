@@ -1,7 +1,7 @@
 //Utils
 import path from "path"
 import { Plugin } from '@vizality/entities'
-import { getModule, React, getModuleByDisplayName} from '@vizality/webpack'
+import { getModule, React, getModuleByDisplayName } from '@vizality/webpack'
 import { patch, unpatch } from '@vizality/patcher'
 import { Menu } from '@vizality/components'
 import { findInReactTree } from '@vizality/util/react'
