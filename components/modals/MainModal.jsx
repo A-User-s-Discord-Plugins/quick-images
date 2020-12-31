@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import { React, getModule, getModuleByDisplayName } from "@vizality/webpack"
 import { contextMenu } from '@vizality/webpack';
-import { Modal, Icon, Button, Anchor } from "@vizality/components"
+import { Modal, Icon, Button, SearchBar, Anchor } from "@vizality/components"
 const { close: closeModal } = require('@vizality/modal')
 
 import ContextMenu from "../context_menus/FileContextMenu"
@@ -51,12 +51,14 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         {/* <FormTitle tag={FormTitle.Tags.H3}>Choose File(s)</FormTitle> */}
                         {/* <div className="qi-space" /> */}
 
-                        <TextInput
-                            autoFocus
-                            className="qi-message-textbox"
-                            placeholder="Search images"
-                            onChange={(value) => {
-                                this.search = value
+                        <SearchBar
+                            placeholder="Search"
+                            query={this.search}
+                            onChange={(val) => {
+                                console.log(val);
+                                console.log("Search prev val: " + this.search)
+                                this.search = val
+                                console.log("Search after val: " + this.search)
                                 this.forceUpdate()
                                 this.openImages()
                             }}
