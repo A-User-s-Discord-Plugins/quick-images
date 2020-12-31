@@ -95,10 +95,13 @@ module.exports = class QuickImages extends Plugin {
     // }
 
     checkUploadPerms(channel) {
-        return UserPermissions.can(
+        return ( UserPermissions.can(
             Permissions.ATTACH_FILES,
             channel
-        ) ||
+        ) && UserPermissions.can(
+            Permissions.SEND_MESSAGES,
+            channel
+        )) ||
             channel.type == 1 || // DM
             channel.type == 3 // Group DM
     }
