@@ -1,17 +1,18 @@
 //Utils
 import path from "path"
 import { Plugin } from '@vizality/entities'
-import { getModule, React, getModuleByDisplayName } from '@vizality/webpack'
+import { getModule, React, getModuleByDisplayName, contextMenu } from '@vizality/webpack'
 import { patch, unpatch } from '@vizality/patcher'
 import { Menu } from '@vizality/components'
 import { findInReactTree } from '@vizality/util/react'
 import DownloadImage from "./modules/DownloadImage"
 import PathManager from "./modules/PathManager"
+import api from "@vizality/api"
 
 //Modules
 import Settings from "./components/Settings"
 import QuickImageButton from "./components/button"
-// import LazyVideoContextMenu from "./components/context menus/to patch/LazyVideo"
+import LazyVideoContextMenu from "./components/context_menus/LazyVideo"
 const ChannelTextAreaContainer = getModule(m => m.type?.render?.displayName === "ChannelTextAreaContainer");
 const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
 const { Permissions } = getModule("Permissions")
@@ -26,8 +27,8 @@ module.exports = class QuickImages extends Plugin {
         this.injectStyles('./styles/settings.css');
         this.patchImageButton()
         this.patchDownloadImageInFolderContextMenu()
-        // this.patchDownloadVideoInFolderButton()
-        vizality.api.settings.registerAddonSettings({
+        this.patchDownloadVideoInFolderButton()
+        api.settings.registerAddonSettings({
             id: this.addonId,
             heading: 'Quick Images',
             render: Settings
@@ -50,8 +51,9 @@ module.exports = class QuickImages extends Plugin {
                     (r) =>
                         r && r.className && r.className.indexOf("buttons-") == 0
                 );
+
                 props.children.unshift(
-                    <><QuickImageButton /></>
+                    <QuickImageButton />
                 );
             }
             return res;
@@ -69,7 +71,12 @@ module.exports = class QuickImages extends Plugin {
                         label="Download image to QuickFolder"
                         action={() => {
                             DownloadImage(fileUrl, PathManager.getQuickFolderPath() + "/" + path.parse(fileUrl).base,).then(function() {
-                                console.log(`yes`);
+                                api.notices.sendToast('qi-downloaded-sucessfully-toast', {
+                                    header: "Image downloaded",
+                                    content: "The image was downloaded sucessfully",
+                                    icon: 'Download',
+                                    timeout: 8e3,
+                                });
                             })
                         }}
                     />
@@ -80,19 +87,23 @@ module.exports = class QuickImages extends Plugin {
         });
     }
 
-    // patchDownloadVideoInFolderButton() {
-    //     console.log("patching context menu")
-    //     patch("quick-video-download-context-menu", LazyVideo, "default", (args, res) => {
-    //         console.log(res)
-    //         let downloadbutton = findInReactTree(res, 
-    //             e => e && typeof e.className === 'string' && e.className === "metadataDownload-1fk90V" !== -1
-    //         )
-    //         console.log(downloadbutton)
-    //         downloadbutton.onClick = console.log("yes")
+    patchDownloadVideoInFolderButton() {
+        console.log("patching videos")
+        patch("quick-video-download-context-menu", LazyVideo.prototype, "render", (args, res) => {
+            console.log(args, res, res.props, "\n" + res.props.onContextMenu)
+            // Add to the buttons.
+            const video = res.props
 
-    //         return res;
-    //     });
-    // }
+            video.onContextMenu = e => contextMenu.openContextMenu(e, () => <LazyVideoContextMenu video={video.src.replace("?format=jpeg", "")} />)
+            // console.log(props)
+
+            // props.children.unshift(
+            //     <span>yes</span>
+            // );
+
+            return res;
+        });
+    }
 
     checkUploadPerms(channel) {
         return ( UserPermissions.can(

@@ -1,7 +1,6 @@
 import fs from "fs"
 import path from "path"
-import { React, getModule, getModuleByDisplayName } from "@vizality/webpack"
-import { contextMenu } from '@vizality/webpack';
+import { React, getModule, getModuleByDisplayName, contextMenu } from "@vizality/webpack"
 import { Modal, Icon, Button, SearchBar, Anchor } from "@vizality/components"
 const { close: closeModal } = require('@vizality/modal')
 
@@ -39,7 +38,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            disabled={PathManager.quickFolderExists ? this.set.startNum <= 0 : true}
+                            //disabled={PathManager.quickFolderExists ? this.set.startNum <= 0 : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.prevSetOfImages(); this.openImages()
@@ -65,7 +64,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            disabled={PathManager.quickFolderExists ? this.set.endNum > this.allImages.length : true}
+                            //disabled={PathManager.quickFolderExists ? this.set.endNum > this.allImages.length : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.nextSetOfImages(); this.openImages()
@@ -141,16 +140,10 @@ module.exports = class QuickImagesModal extends React.PureComponent {
             if (i > this.set.startNum - 1 && i < this.set.endNum) { // if i is behind this.startNum and this.startNum 
                 if (currentFile.toUpperCase().indexOf(this.search.toUpperCase()) > -1) {
                     this.currentImages.push(currentFile)
-                    // console.log(currentFile + " pushed")
-                } else {
-                    // console.log(currentFile + " not pushed")
                 }
                 
             }
         }
-
-        console.log(this.currentImages)
-
         return this.currentImages
     }
     
