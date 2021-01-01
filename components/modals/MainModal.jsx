@@ -17,12 +17,16 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     constructor(props){
         super(props)
 
-        this.allImages = [];
-        this.set = {
-            startNum: 0, //Declarates startNum
-            endNum: 10 //Declarates endNum
+        this.images = {
+            all: [],
+            selected: ""
         }
-        this.currentImages = [];
+
+        this.set = {
+            start: 0, //Declarates start
+            end: 10, //Declarates end
+            current: []
+        }
 
         this.search = ""
 
@@ -38,7 +42,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            //disabled={PathManager.quickFolderExists ? this.set.startNum <= 0 : true}
+                            //disabled={PathManager.quickFolderExists ? this.set.start <= 0 : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.prevSetOfImages(); this.openImages()
@@ -64,7 +68,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                         <Button
                             look={Button.Looks.BLANK}
                             size={Button.Sizes.ICON}
-                            //disabled={PathManager.quickFolderExists ? this.set.endNum > this.allImages.length : true}
+                            //disabled={PathManager.quickFolderExists ? this.set.end > this.images.all.length : true}
                             className="qi-button"
                             onClick={(e) => {
                                 e.stopPropagation(); this.nextSetOfImages(); this.openImages()
@@ -98,7 +102,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
     openImages(){
         if (PathManager.quickFolderExists){
-            this.allImages = this.outputFiles(folderPath)
+            this.images.all = this.outputFiles(folderPath)
             this.clearSetOfImages();
             let set = this.configureFileSet();
             console.log(Array.isArray(set) && set.length)
@@ -135,16 +139,16 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
 
     configureFileSet(){
-        for (var i = 0; i < this.allImages.length; i++) {
-            let currentFile = this.allImages[i]
-            if (i > this.set.startNum - 1 && i < this.set.endNum) { // if i is behind this.startNum and this.startNum 
+        for (var i = 0; i < this.images.all.length; i++) {
+            let currentFile = this.images.all[i]
+            if (i > this.set.start - 1 && i < this.set.end) { // if i is behind this.start and this.start 
                 if (currentFile.toUpperCase().indexOf(this.search.toUpperCase()) > -1) {
-                    this.currentImages.push(currentFile)
+                    this.set.current.push(currentFile)
                 }
                 
             }
         }
-        return this.currentImages
+        return this.set.current
     }
     
     renderFiles(imageArray){
@@ -186,22 +190,22 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
 
     nextSetOfImages(){
-        if (this.set.endNum > this.allImages.length) return
+        if (this.set.end > this.images.all.length) return
         this.clearSetOfImages()
-        this.set.startNum = this.set.startNum + 10
-        this.set.endNum = this.set.endNum + 10
+        this.set.start = this.set.start + 10
+        this.set.end = this.set.end + 10
         this.forceUpdate()
     }
 
     prevSetOfImages() {
-        if (this.set.startNum <= 0) return
+        if (this.set.start <= 0) return
         this.clearSetOfImages()
-        this.set.startNum = this.set.startNum - 10
-        this.set.endNum = this.set.endNum - 10
+        this.set.start = this.set.start - 10
+        this.set.end = this.set.end - 10
         this.forceUpdate()
     }
 
-    clearSetOfImages() { this.currentImages = []; }
+    clearSetOfImages() { this.set.current = []; }
 
     async uploadImage(fileContents, fileName, messsage){
         const { upload } = await getModule('cancel', 'upload')
