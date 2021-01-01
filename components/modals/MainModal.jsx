@@ -19,7 +19,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
         this.images = {
             all: [],
-            selected: ""
+            selected: null
         }
 
         this.set = {
@@ -84,16 +84,27 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                     }
                 </Modal.Content>
                 <Modal.Footer>
-                    <div className="qi-space" />
+                    <Button
+                        look={Button.Looks.FILLED}
+                        size={Button.Sizes.MEDIUM}
+                        color={Button.Colors.BRAND}
+                        disabled={this.images.selected === null}
+                        onClick={(e) => {
+                            this.uploadImage(fs.readFileSync(folderPath + "/" + this.images.selected), this.images.selected, this.message)
+                            closeModal()
+                        }}
+                    >
+                        Upload
+                    </Button>
                     <Button
                         look={Button.Looks.LINK}
-                        size={Button.Sizes.SMALL}
+                        size={Button.Sizes.MEDIUM}
                         color={Button.Colors.WHITE}
                         onClick={(e) => {
                             closeModal()
                         }}
                     >
-                        Close
+                        Cancel
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -165,8 +176,8 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                     <figure className="qi-image-item"
                         onClick={(e) => {
                             e.stopPropagation();
-                            this.uploadImage(fs.readFileSync(actualFile), img, this.message)
-                            closeModal()
+                            this.selectImage(path.basename(actualFile))
+                            this.forceUpdate()
                         }}>
                         {
                             path.extname(actualFile).toLowerCase() == ".mp4"
@@ -181,6 +192,12 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             <img src={"data:image/png;base64, " + fs.readFileSync(actualFile, { encoding: "base64" })}
                                 className="qi-image-img"
                             />
+                        }
+                        {
+                            this.images.selected == path.basename(actualFile) ?
+                                <div className="qi-image-item-select-indicator"><Icon name='CheckmarkCircle' /></div>
+                            :
+                            <></>
                         }
                     </figure>
                     <span className="qi-item-name markup-2BOw-j">{path.basename(actualFile)}</span>
@@ -205,7 +222,13 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         this.forceUpdate()
     }
 
-    clearSetOfImages() { this.set.current = []; }
+    clearSetOfImages() {
+        this.set.current = [];
+    }
+
+    selectImage(imagePath){
+        this.images.selected = imagePath
+    }
 
     async uploadImage(fileContents, fileName, messsage){
         const { upload } = await getModule('cancel', 'upload')

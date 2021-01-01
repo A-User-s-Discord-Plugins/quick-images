@@ -92,3 +92,41 @@
     width: 100%;
     margin-left: 0;
 }
+
+.qi-image-item-select-indicator{
+    color: #7289da;
+    border-radius: 50%;
+    background: #fff;
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    bottom:0;
+    right:0;
+    animation: select-indicaator-anim .2s ease;
+}
+
+.qi-image-item-select-indicator svg{
+    width: 36px;
+    height: 36px;
+}
+
+.qi-lazyvideo-context-menu .groupLabel-2t5iuZ{
+    justify-content: start;
+}
+
+.qi-lazyvideo-context-menu .groupLabel-2t5iuZ svg{
+    width: 20px;
+    height: 20px;
+}
+
+.qi-lazyvideo-context-menu-file-name{
+    margin-left: 5px;
+}
+
+@keyframes select-indicaator-anim {
+    0% {
+        transform: scale(0.0);
+    } 100% {
+        transform: scale(1.0);
+    }
+}
