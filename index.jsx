@@ -93,7 +93,6 @@ module.exports = class QuickImages extends Plugin {
     patchDownloadVideoInFolderButton() {
         console.log("patching videos")
         patch("quick-video-download-context-menu", LazyVideo.prototype, "render", (args, res) => {
-            console.log(args, res, res.props, "\n" + res.props.onContextMenu)
             // Add to the buttons.
             const video = res.props
 
