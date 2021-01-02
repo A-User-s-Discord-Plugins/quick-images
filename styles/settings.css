@@ -2,3 +2,9 @@
     background-image: none;
     /* color: #aaa; */
 }
+
+.qi-restart-notice{
+    max-width: 1440px;
+    margin: 0 auto 20px auto;
+    background-color: rgba(32, 34, 37, 0.9);
+}

@@ -123,7 +123,8 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                 </div>
                 <TextInput
                     className="qi-message-textbox"
-                    placeholder="Here goes the message that you wanna send"
+                    value={this.props.prevText}
+                    placeholder="Message"
                     onChange={(value) => {
                         this.message.content = value
                     }}

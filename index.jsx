@@ -1,6 +1,6 @@
 //Utils
 import path from "path"
-import { Plugin } from '@vizality/entities'
+import { Plugin } from '@vizality/core'
 import { getModule, React, getModuleByDisplayName, contextMenu } from '@vizality/webpack'
 import { patch, unpatch } from '@vizality/patcher'
 import { Menu } from '@vizality/components'
@@ -56,7 +56,7 @@ module.exports = class QuickImages extends Plugin {
                 );
 
                 props.children.unshift(
-                    <QuickImageButton />
+                    <QuickImageButton prevText={args[0].textValue}/>
                 );
             }
             return res;

@@ -13,7 +13,7 @@ module.exports = class QuickImagesButton extends React.PureComponent{
                 look={Button.Looks.BLANK}
                 size={Button.Sizes.ICON}
                 className="qi-button"
-                onClick={() => openModal(() => <QuickImagesModal />)}
+                onClick={() => openModal(() => <QuickImagesModal prevText={this.props.prevText} />)}
                 onContextMenu={e => contextMenu.openContextMenu(e, () => <ContextMenu />)}
             >
                 <Icon name='ImagePlaceholder'

@@ -5,4 +5,6 @@
 ![preview](screenshots/1.png)
 
 ### To-do
-- Add a button (or context menu) to download videos
+- ~~Add a button (or context menu) to download videos~~
+- ~~Search bar~~
+- Use a ChannelTextAreaContainer instead of a normal TextImput
