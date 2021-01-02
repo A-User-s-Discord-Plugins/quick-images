@@ -1,8 +1,10 @@
 import { React } from "@vizality/react"
 import { Button, Icon } from "@vizality/components"
+import { contextMenu } from '@vizality/webpack'
 const { open: openModal } = require('@vizality/modal')
 
 import QuickImagesModal from "./modals/MainModal"
+import ContextMenu from "./context_menus/ButtonContextMenu"
 
 module.exports = class QuickImagesButton extends React.PureComponent{
     render(){
@@ -11,9 +13,8 @@ module.exports = class QuickImagesButton extends React.PureComponent{
                 look={Button.Looks.BLANK}
                 size={Button.Sizes.ICON}
                 className="qi-button"
-                onClick={(e) => {
-                    openModal(() => <QuickImagesModal />)
-                }}
+                onClick={() => openModal(() => <QuickImagesModal />)}
+                onContextMenu={e => contextMenu.openContextMenu(e, () => <ContextMenu />)}
             >
                 <Icon name='ImagePlaceholder'
                     className="buttonWrapper-1ZmCpA"
