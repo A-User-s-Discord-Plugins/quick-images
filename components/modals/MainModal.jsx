@@ -143,7 +143,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
         let images = filenames.filter(function (file) { // Filters for a video or file
             let extname = path.extname(file).toLowerCase() // Get the file extension
-            if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.gif' || extname === '.mp4') return file // Excludes everything except images and videos. Also sorry for this mess
+            if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.gif' || extname === '.mp4' || extname === '.mov') return file // Excludes everything except images and videos. Also sorry for this mess
         });
 
         return images
@@ -163,24 +163,25 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
     
     renderFiles(imageArray){
-        return imageArray.map((img) => {
-            let actualFile = folderPath + "/" + img
+        return imageArray.map((file) => {
+            let actualFile = folderPath + "/" + file
+            let fileext = path.extname(file)
             return <>
                 <div className="qi-item"
                     onContextMenu={e => contextMenu.openContextMenu(e, () => <ContextMenu
                         file={actualFile}
                         folder={folderPath}
-                        fileName={img}
+                        fileName={file}
                     />
                     )}>
                     <figure className="qi-image-item"
                         onClick={(e) => {
                             e.stopPropagation();
-                            this.selectImage(path.basename(actualFile))
+                            this.selectImage(file)
                             this.forceUpdate()
                         }}>
                         {
-                            path.extname(actualFile).toLowerCase() == ".mp4"
+                            fileext.toLowerCase() == ".mp4" || fileext.toLowerCase() == ".mov"
                             ?
                                 <video src={"data:video/mp4;base64, " + fs.readFileSync(actualFile, { encoding: "base64" })}
                                     autoplay="autoplay"
@@ -194,7 +195,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             />
                         }
                         {
-                            this.images.selected == path.basename(actualFile) ?
+                            this.images.selected == file ?
                                 <div className="qi-image-item-select-indicator"><Icon name='CheckmarkCircle' /></div>
                             :
                             <></>
