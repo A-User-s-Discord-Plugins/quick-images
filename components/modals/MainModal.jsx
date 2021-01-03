@@ -21,11 +21,14 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         this.state = {
             allFiles: [],
             epicRendering: <></>
+            
         }
 
         this.images = {
             selected: null
         }
+
+        this.setSize = 10
 
         this.set = {
             start: 0, //Declarates start
@@ -50,7 +53,9 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             //disabled={PathManager.quickFolderExists ? this.set.start <= 0 : true}
                             className="qi-button"
                             onClick={(e) => {
-                                e.stopPropagation(); this.prevSetOfImages(); this.openImages()
+                                e.stopPropagation();
+                                this.prevSetOfImages();
+                                this.openImages()
                             }}
                         >
                             <Icon name='ArrowBack' />
@@ -66,7 +71,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             onChange={(val) => {
                                 this.search = val
                                 this.forceUpdate()
-                                // this.openImages()
+                                this.openImages()
                             }}
                         />
 
@@ -76,7 +81,9 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             //disabled={PathManager.quickFolderExists ? this.set.end > this.images.all.length : true}
                             className="qi-button"
                             onClick={(e) => {
-                                e.stopPropagation(); this.nextSetOfImages(); //this.openImages()
+                                e.stopPropagation();
+                                this.nextSetOfImages();
+                                this.openImages();
                             }}
                         >
                             <Icon name='ArrowRight' />
@@ -116,7 +123,20 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         </>
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
+        this.openImages()
+    }
+
+    // componentWillUnmount(){
+    //     try {
+    //         this.state.allFiles.forEach(file => URL.revokeObjectURL(file.url));
+    //         this.setState({allFiles: []});
+    //     } catch (err) {
+    //         console.error(err)
+    //     }
+    // }
+
+    async openImages(){
         let post;
         if (PathManager.quickFolderExists) {
             this.setState({ //react is wild with async/await functions
@@ -162,11 +182,10 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     configureFileSet() {
         for (var i = 0; i < this.state.allFiles.length; i++) {
             let currentFile = this.state.allFiles[i]
-            if (i > this.set.start - 1 && i < this.set.end) { // if i is behind this.start and this.start 
-                if (currentFile.name.toUpperCase().indexOf(this.search.toUpperCase()) > -1) {
+            if (i > this.set.start - 1 && i < this.set.end) {
+                if (currentFile.name.toUpperCase().indexOf(this.search.toUpperCase()) > -1){
                     this.set.current.push(currentFile)
                 }
-
             }
         }
         return this.set.current
@@ -182,10 +201,8 @@ module.exports = class QuickImagesModal extends React.PureComponent {
             return <>
                 <div className="qi-item"
                     onContextMenu={e => contextMenu.openContextMenu(e, () => <ContextMenu
-                        file={filePath}
-                        fileContents={file.url}
+                        file={file}
                         folder={folderPath}
-                        fileName={filename}
                     />
                     )}>
                     <figure className="qi-image-item"
@@ -224,16 +241,16 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     nextSetOfImages() {
         if (this.set.end > this.state.allFiles.length) return
         this.clearSetOfImages()
-        this.set.start = this.set.start + 10
-        this.set.end = this.set.end + 10
+        this.set.start = this.set.start + this.setSize
+        this.set.end = this.set.end + this.setSize
         this.forceUpdate()
     }
 
     prevSetOfImages() {
         if (this.set.start <= 0) return
         this.clearSetOfImages()
-        this.set.start = this.set.start - 10
-        this.set.end = this.set.end - 10
+        this.set.start = this.set.start - this.setSize
+        this.set.end = this.set.end - this.setSize
         this.forceUpdate()
     }
 

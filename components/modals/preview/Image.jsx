@@ -14,10 +14,10 @@ module.exports = class PreviewImage extends React.PureComponent {
                 animated={false}
                 className="image-1tIMwV"
                 isTrusted={true}
-                original={this.props.fileContents}
-                placeholder={this.props.fileContents}
+                original={this.props.file.url}
+                placeholder={this.props.file.url}
                 shouldAnimate={true}
-                src={this.props.fileContents}
+                src={this.props.file.url}
                 width={600}
                 height={600}
             >

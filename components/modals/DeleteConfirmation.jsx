@@ -25,7 +25,7 @@ module.exports = class DeleteConfirmationModal extends React.PureComponent {
                         size={Button.Sizes.MEDIUM}
                         color={Button.Colors.RED}
                         onClick={(e) => {
-                            fs.unlinkSync(this.props.file)
+                            fs.unlinkSync(this.props.file.path)
                             closeModal()
                         }}
                     >

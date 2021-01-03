@@ -35,7 +35,7 @@ module.exports = class DeleteConfirmationModal extends React.PureComponent {
                         size={Button.Sizes.MEDIUM}
                         color={Button.Colors.BRAND}
                         onClick={(e) => {
-                            fs.renameSync(this.props.file, this.props.folder + "/" + this.newFileName)
+                            fs.renameSync(this.props.file.path, this.props.folder + "/" + this.newFileName)
                             closeModal()
                         }}
                     >
