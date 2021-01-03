@@ -13,7 +13,8 @@ module.exports = class FileContextMenu extends React.Component {
             <Menu.Menu onClose={contextMenu.closeContextMenu}>
                 <Menu.MenuItem
                     id="previre-file"
-                    label="Preview"
+                    label="Preview (Coming in a future update)"
+                    disabled={true}
                     action={() => openModal(() => <PreviewImageModal file={this.props.file} />)}
                 />
                 <Menu.MenuItem
