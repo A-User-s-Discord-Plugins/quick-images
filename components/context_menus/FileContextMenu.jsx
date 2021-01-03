@@ -5,11 +5,17 @@ const { open: openModal } = require('@vizality/modal')
 import { Menu } from '@vizality/components'
 import DeleteConfirmationModal from "../modals/deleteConfirmation"
 import RenameModal from "../modals/Rename"
+import PreviewImageModal from "../modals/preview/Image"
 
 module.exports = class FileContextMenu extends React.Component {
     render() {
         return <>
             <Menu.Menu onClose={contextMenu.closeContextMenu}>
+                <Menu.MenuItem
+                    id="previre-file"
+                    label="Preview"
+                    action={() => openModal(() => <PreviewImageModal file={this.props.file} fileContents={this.props.fileContents} />)}
+                />
                 <Menu.MenuItem
                     id="rename-file"
                     label="Rename"
