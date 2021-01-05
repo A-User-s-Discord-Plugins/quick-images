@@ -16,9 +16,9 @@ import QuickImageButton from "./components/button"
 import LazyVideoContextMenu from "./components/context_menus/LazyVideo"
 const ChannelTextAreaContainer = getModule(m => m.type?.render?.displayName === "ChannelTextAreaContainer");
 const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
+const { getChannel } = getModule("getChannel");
 const { Permissions } = getModule("Permissions")
 const UserPermissions = getModule("getHighestRole");
-const { getChannel } = getModule("getChannel");
 const NativeImageContextMenu = getModule(m => m.default?.displayName === 'NativeImageContextMenu');
 const LazyVideo = getModuleByDisplayName("LazyVideo")
 
@@ -96,7 +96,7 @@ module.exports = class QuickImages extends Plugin {
             // Add to the buttons.
             const video = res.props
 
-            video.onContextMenu = e => contextMenu.openContextMenu(e, () => <LazyVideoContextMenu video={video.src.replace("?format=jpeg", "")} />)
+            video.onContextMenu = e => contextMenu.openContextMenu(e, () => <LazyVideoContextMenu video={video.src.replace("?format=jpeg", "").replace("https://media.discordapp.net", "https://cdn.discordapp.com")} />)
             // console.log(props)
 
             // props.children.unshift(

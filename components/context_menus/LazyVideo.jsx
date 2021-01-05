@@ -11,7 +11,7 @@ module.exports = class LazyVideoContextMenu extends React.Component {
     constructor(props){
         super(props)
 
-        this.fileurl = this.props.video
+        this.fileurl = this.props.video.replace("https://media.discordapp.net", "https://cdn.discordapp.com")
         this.filename = path.parse(this.fileurl).base
     }
     

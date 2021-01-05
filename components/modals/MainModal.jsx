@@ -3,14 +3,15 @@ import path from "path"
 import { React, getModule, getModuleByDisplayName, contextMenu } from "@vizality/webpack"
 import { file } from '@vizality/util'
 import { Modal, Icon, Button, SearchBar, Anchor } from "@vizality/components"
+import PathManager from "../../modules/PathManager"
 const { close: closeModal } = require('@vizality/modal')
 
 import ContextMenu from "../context_menus/FileContextMenu"
 const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
 const TextInput = getModuleByDisplayName("TextInput")
 const FormTitle = getModuleByDisplayName('FormTitle')
-
-import PathManager from "../../modules/PathManager"
+const ChannelTextAreaContainer = getModule(m => m.type?.render?.displayName === "ChannelTextAreaContainer");
+const { getChannel } = getModule("getChannel");
 
 const folderPath = PathManager.getQuickFolderPath()
 
@@ -145,9 +146,10 @@ module.exports = class QuickImagesModal extends React.PureComponent {
             this.clearSetOfImages();
             let set = this.configureFileSet();
             if (Array.isArray(set) && set.length) {
-                post = <><div className="qi-grid">
-                    {this.renderFiles(set)}
-                </div>
+                post = <>
+                    <div className="qi-grid">
+                        {this.renderFiles(set)}
+                    </div>
                     <TextInput
                         className="qi-message-textbox"
                         value={this.props.prevText}
@@ -156,6 +158,28 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             this.message.content = value
                         }}
                     />
+
+                    {/* <ChannelTextAreaContainer
+                        autoSuggestEnabled={false}
+                        canExecuteCommands={false}
+                        className="channelTextArea-rNsIhG"
+                        channel={getChannel(getChannelId())}
+                        focused={false}
+                        highlighted={false}
+                        //onBlur={function () {}}
+                        //onChange={function () { }}
+                        //onFocus={function () { }}
+                        //onKeyDown={function () { }}
+                        onResize={undefined}
+                        //onSubmit={function () { }}
+                        pendingReply={undefined}
+                        placeholder="Message #alpha"
+                        //promptToUpload={function () { }}
+                        //renderAttachButton={function () { }}
+                        shouldRenderPremiumGiftButton={false}
+                        shouldUploadLongMessages={true}
+                        textValue=""
+                    /> */}
                 </>
             }
             else {
