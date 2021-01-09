@@ -1,7 +1,6 @@
 import { shell, clipboard } from 'electron'
 import path from "path"
 import { React, contextMenu } from '@vizality/webpack'
-import api from "@vizality/api"
 import DownloadImage from "../../modules/DownloadImage"
 import PathManager from "../../modules/PathManager"
 
@@ -11,7 +10,7 @@ module.exports = class LazyVideoContextMenu extends React.Component {
     constructor(props){
         super(props)
 
-        this.fileurl = this.props.video.replace("https://media.discordapp.net", "https://cdn.discordapp.com")
+        this.fileurl = this.props.video
         this.filename = path.parse(this.fileurl).base
     }
     
@@ -32,7 +31,7 @@ module.exports = class LazyVideoContextMenu extends React.Component {
                         label="Save video in QuickFolder"
                         action={() => {
                             DownloadImage(this.fileurl, PathManager.getQuickFolderPath() + "/" + this.filename).then(function () {
-                                api.notices.sendToast('qi-downloaded-sucessfully-toast', {
+                                vizality.api.notices.sendToast('qi-downloaded-sucessfully-toast', {
                                     header: "Video downloaded",
                                     content: "The video was downloaded sucessfully",
                                     icon: 'Download',

@@ -1,13 +1,12 @@
 //Utils
 import path from "path"
-import { Plugin } from '@vizality/core'
+import { Plugin } from '@vizality/entities'
 import { getModule, React, getModuleByDisplayName, contextMenu } from '@vizality/webpack'
 import { patch, unpatch } from '@vizality/patcher'
 import { Menu } from '@vizality/components'
 import { findInReactTree } from '@vizality/util/react'
 import DownloadImage from "./modules/DownloadImage"
 import PathManager from "./modules/PathManager"
-import api from "@vizality/api"
 const { updateSetting, getSetting, toggleSetting } = vizality.api.settings._fluxProps(this.addonId)
 
 //Modules
@@ -31,7 +30,7 @@ module.exports = class QuickImages extends Plugin {
         if (getSetting('contextMenuVideo', true)){
             this.patchDownloadVideoInFolderButton()
         }
-        api.settings.registerAddonSettings({
+        vizality.api.settings.registerAddonSettings({
             id: this.addonId,
             heading: 'Quick Images',
             render: Settings
@@ -74,7 +73,7 @@ module.exports = class QuickImages extends Plugin {
                         label="Save image in QuickFolder"
                         action={() => {
                             DownloadImage(fileUrl, PathManager.getQuickFolderPath() + "/" + path.parse(fileUrl).base,).then(function() {
-                                api.notices.sendToast('qi-downloaded-sucessfully-toast', {
+                                vizality.api.notices.sendToast('qi-downloaded-sucessfully-toast', {
                                     header: "Image downloaded",
                                     content: "The image was downloaded sucessfully",
                                     icon: 'Download',
