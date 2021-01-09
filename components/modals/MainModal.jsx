@@ -192,17 +192,6 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         this.setState({ epicRendering })
     }
 
-    outputFiles = function (dirname) {
-        let filenames = fs.readdirSync(dirname) // Get all itens in the folder
-
-        let images = filenames.filter(function (file) { // Filters for a video or file
-            let extname = path.extname(file).toLowerCase() // Get the file extension
-            if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.gif' || extname === '.mp4' || extname === '.mov') return file // Excludes everything except images and videos. Also sorry for this mess
-        });
-
-        return images
-    }
-
     configureFileSet() {
         for (var i = 0; i < this.state.allFiles.length; i++) {
             let currentFile = this.state.allFiles[i]

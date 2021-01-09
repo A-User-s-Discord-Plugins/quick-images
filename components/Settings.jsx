@@ -2,7 +2,7 @@ import { React } from "@vizality/react"
 import { getModule, getModuleByDisplayName } from '@vizality/webpack';
 import { Button } from "@vizality/components"
 import { SwitchItem, } from "@vizality/components/settings"
-import TextInputWithButton from "./TextInputWithButton"
+import TextInputWithButton from "./custom/TextInputWithButton"
 const TransitionGroup = getModuleByDisplayName("TransitionGroup")
 const { SlideIn } = getModule("SlideIn")
 

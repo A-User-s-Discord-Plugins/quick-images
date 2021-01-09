@@ -1,4 +1,5 @@
 import fs from "fs"
+import path from "path"
 import { Modal, Button } from "@vizality/components"
 import { React, getModuleByDisplayName } from "@vizality/webpack"
 const { close: closeModal } = require('@vizality/modal')
@@ -10,6 +11,7 @@ module.exports = class DeleteConfirmationModal extends React.PureComponent {
     constructor(props){
         super(props)
         this.newFileName;
+        this.fileName = path.basename(this.props.file.path)
     }
 
     render(){
@@ -21,9 +23,9 @@ module.exports = class DeleteConfirmationModal extends React.PureComponent {
                 <Modal.Content>
                     <TextInput
                         autoFocus
-                        defaultValue={this.props.fileName}
+                        defaultValue={this.fileName}
                         className="qi-message-textbox"
-                        placeholder={this.props.fileName}
+                        placeholder={this.fileName}
                         onChange={(value) => {
                             this.newFileName = value
                         }}
