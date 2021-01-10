@@ -1,3 +1,4 @@
+//Utils
 import fs from "fs"
 import path from "path"
 import { React, getModule, getModuleByDisplayName, contextMenu } from "@vizality/webpack"
@@ -6,6 +7,7 @@ import { Modal, Icon, Button, SearchBar, Anchor } from "@vizality/components"
 import PathManager from "../../modules/PathManager"
 const { close: closeModal } = require('@vizality/modal')
 
+//Components
 import ContextMenu from "../context_menus/FileContextMenu"
 const { getChannelId } = getModule('getChannelId', 'getVoiceChannelId')
 const TextInput = getModuleByDisplayName("TextInput")
@@ -13,6 +15,7 @@ const FormTitle = getModuleByDisplayName('FormTitle')
 const ChannelTextAreaContainer = getModule(m => m.type?.render?.displayName === "ChannelTextAreaContainer");
 const { getChannel } = getModule("getChannel");
 
+//Global Vars
 const folderPath = PathManager.getQuickFolderPath()
 
 module.exports = class QuickImagesModal extends React.PureComponent {

@@ -1,6 +1,7 @@
 //yeah i stolen it from spotify-in-discord, pls check it out in https://github.com/vizality-community/spotify-in-discord
 import file from "./file"
 import QuickImagesModal from "../components/modals/MainModal"
+import { React } from '@vizality/webpack'
 const { open: openModal } = require('@vizality/modal')
 
 export const commandList = { file };
