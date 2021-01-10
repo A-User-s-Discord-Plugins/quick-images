@@ -21,8 +21,8 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
         this.state = {
             allFiles: [],
-            epicRendering: <></>
-            
+            epicRendering: <></>,
+            shouldInvokeURLS: true
         }
 
         this.images = {
@@ -140,9 +140,11 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     async openImages(){
         let post;
         if (PathManager.quickFolderExists) {
-            this.setState({ //react is wild with async/await functions
-                allFiles: await file.getObjectURL(folderPath, ['.png', '.jpg', '.jpeg', '.gif', '.mp4', '.mov'])
-            })
+            if (this.state.shouldInvokeURLS){
+                this.setState({ //react is wild with async/await functions
+                    allFiles: await file.getObjectURL(folderPath, ['.png', '.jpg', '.jpeg', '.gif', '.mp4', '.mov'])
+                })
+            }
             this.clearSetOfImages();
             let set = this.configureFileSet();
             if (Array.isArray(set) && set.length) {
@@ -188,6 +190,8 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         } else {
             post = this.errorInProcess(<><span>Looks like that you didn't set a QuickFolder. </span> <Anchor type='plugin' addonId='quick-images'>Setup one right now.</Anchor></>)
         }
+
+        this.setState({ shouldInvokeURLS: false })
         const epicRendering = post
         this.setState({ epicRendering })
     }
@@ -225,7 +229,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
                             this.forceUpdate()
                         }}>
                         {
-                            fileext.toLowerCase() == ".mp4" || fileext.toLowerCase() == ".mov"
+                            PathManager.checkFileType(filePath) === "Video"
                                 ?
                                 <video src={file.url}
                                     autoplay="autoplay"
