@@ -7,6 +7,7 @@ import { Menu } from '@vizality/components'
 import { findInReactTree } from '@vizality/util/react'
 import DownloadImage from "./modules/DownloadImage"
 import PathManager from "./modules/PathManager"
+import * as CommandList from "./commands"
 const { updateSetting, getSetting, toggleSetting } = vizality.api.settings._fluxProps(this.addonId)
 
 //Modules
@@ -23,37 +24,48 @@ const LazyVideo = getModuleByDisplayName("LazyVideo")
 
 module.exports = class QuickImages extends Plugin {
     onStart() {
+        //Inject styles
         this.injectStyles('./styles/index.css');
         this.injectStyles('./styles/settings.css');
+        
+        //Inject button
         this.patchImageButton()
+        
+        //Inject Download Image In Folder context menu item
         this.patchDownloadImageInFolderContextMenu()
+        
+        //Inject custom context menu for videos
         if (getSetting('contextMenuVideo', true)){
             this.patchDownloadVideoInFolderButton()
         }
+
+        //Register settings
         vizality.api.settings.registerAddonSettings({
             id: this.addonId,
             heading: 'Quick Images',
             render: Settings
         })
+
+        //Inject commands
+        CommandList.register()
     }
 
     onStop() {
         unpatch("quick-images-button")
         unpatch("quick-images-download-context-menu-button")
         unpatch("quick-video-download-context-menu")
+        CommandList.unregister()
     }
 
     patchImageButton() {
         this.log("Patching image button")
         patch("quick-images-button", ChannelTextAreaContainer.type, "render", (args, res) => {
             if (args[0].className !== "channelTextAreaUpload-3t7EIx marginTop8-1DLZ1n" && this.checkUploadPerms(getChannel(getChannelId()))) { // Check if we're not patching in the ChannelTextAreaContainer of the Upload Modal
-                // Add to the buttons.
                 const props = findInReactTree(
                     res,
                     (r) =>
                         r && r.className && r.className.indexOf("buttons-") == 0
                 );
-
                 props.children.unshift(
                     <QuickImageButton prevText={args[0].textValue}/>
                 );
@@ -84,7 +96,6 @@ module.exports = class QuickImages extends Plugin {
                     />
                 </>
             );
-
             return res;
         });
     }
@@ -92,16 +103,10 @@ module.exports = class QuickImages extends Plugin {
     patchDownloadVideoInFolderButton() {
         console.log("patching videos")
         patch("quick-video-download-context-menu", LazyVideo.prototype, "render", (args, res) => {
-            // Add to the buttons.
             const video = res.props
-
-            video.onContextMenu = e => contextMenu.openContextMenu(e, () => <LazyVideoContextMenu video={video.src.replace("?format=jpeg", "").replace("https://media.discordapp.net", "https://cdn.discordapp.com")} />)
-            // console.log(props)
-
-            // props.children.unshift(
-            //     <span>yes</span>
-            // );
-
+            video.onContextMenu = e => contextMenu.openContextMenu(e, () => {
+                <LazyVideoContextMenu video={video.src.replace("?format=jpeg", "").replace("https://media.discordapp.net", "https://cdn.discordapp.com")} />
+            })
             return res;
         });
     }
