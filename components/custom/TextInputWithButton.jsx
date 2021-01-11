@@ -27,7 +27,6 @@ module.exports = class TextInputWithButton extends React.PureComponent {
 
     render () {
         const { title, disabled, placeholder, buttonOnClick, buttonIcon } = this.props;
-        console.log(this.classes.editIcon)
         return (
             <FormItem title={title}>
                 <div className={['smartTypers-input', this.classes.container, this.classes.hasValue, disabled && this.classes.disabled ].join(' ')}>

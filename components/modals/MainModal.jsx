@@ -212,12 +212,10 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
 
     renderFiles(imageArray) {
-        console.log(imageArray)
         return imageArray.map((file) => {
             let filePath = file.path
             let filename = path.basename(filePath)
             let fileext = path.extname(filename)
-            console.log(file)
             return <>
                 <div className="qi-item"
                     onContextMenu={e => contextMenu.openContextMenu(e, () => <ContextMenu
@@ -284,10 +282,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
 
     async uploadImage(fileContents, fileName, messsage = "") {
         const { upload } = await getModule('cancel', 'upload')
-
         let fileprop = new File([fileContents], fileName); // Transforms the Buffer from fileContents to a File component
-        console.log(fileprop)
-
         upload(getChannelId(), fileprop, messsage) // Uploads
     }
 

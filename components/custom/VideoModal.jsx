@@ -1,5 +1,4 @@
 import { React, getModule, getModuleByDisplayName } from "@vizality/webpack"
-import { file } from '@vizality/util'
 
 const { renderVideoComponent } = getModule('renderVideoComponent')
 const LazyVideo = getModuleByDisplayName("LazyVideo")
@@ -15,7 +14,7 @@ module.exports = class PreviewVideo extends React.PureComponent {
 
     render() {
         const file = this.props.file
-        this.getVideoInfo(file.url).then(vidinfo => {
+        this.getVideoInfo(file).then(vidinfo => {
             this.setState({ videoInformations: vidinfo })
         })
         return <>
@@ -25,7 +24,7 @@ module.exports = class PreviewVideo extends React.PureComponent {
                         renderVideoComponent({
                             className: "embedWrapper-lXpS3L",
                             fileName: file.name,
-                            fileSize: 0,
+                            fileSize: this.props.fileSize,
                             naturalHeight: this.state.videoInformations.height,
                             naturalWidth: this.state.videoInformations.width,
                             poster: "https://media.discordapp.net/attachments/539180316447997974/797882219833982986/f.mp4?format=jpeg",
@@ -33,29 +32,16 @@ module.exports = class PreviewVideo extends React.PureComponent {
                             // width: this.state.videoInformations.width
                         })
                     }
-                    {/* <LazyVideo
-                        autoPlay={true}
-                        className="embedWrapper-lXpS3L"
-                        fileName={file.name}
-                        fileSize={0}
-                        height={this.state.videoInformations.height}
-                        naturalHeight={this.state.videoInformations.height}
-                        width={this.state.videoInformations.width}
-                        naturalWidth={this.state.videoInformations.width}
-                        poster="https://media.discordapp.net/attachments/539180316447997974/797882219833982986/f.mp4?format=jpeg"
-                        playable={true}
-                        src={file.url}
-                    /> */}
                 </div>
             </div>
         </>
     }
 
-    getVideoInfo(url) {
+    getVideoInfo(file) {
         return new Promise((resolve) => {
             // create the video element
             let video = document.createElement('video');
-            video.src = url;
+            video.src = file.url;
 
             // place a listener on it
             video.addEventListener("loadedmetadata", function () {

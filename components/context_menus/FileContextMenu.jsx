@@ -1,3 +1,4 @@
+import fs from "fs"
 import { React } from '@vizality/webpack'
 import { getModuleByDisplayName, contextMenu } from '@vizality/webpack'
 import { file } from '@vizality/util'
@@ -31,7 +32,6 @@ module.exports = class FileContextMenu extends React.Component {
                     // disabled={fileType === "Video"}
                     action={() => {
                         if (fileType === "Image"){
-                            console.log(this.state.imageDimensions)
                             openModal(() => <ImageModal
                                 className="image-1tIMwV"
                                 src={fileUrl}
@@ -40,7 +40,8 @@ module.exports = class FileContextMenu extends React.Component {
                             >
                             </ImageModal>)
                         } else {
-                            openModal(() => <VideoModal file={file} />)
+                            let stats = fs.statSync(file.path)
+                            openModal(() => <VideoModal file={file} fileSize={stats.size} />)
                         }
                     }}
                 />

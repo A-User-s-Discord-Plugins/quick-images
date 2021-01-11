@@ -1,3 +1,4 @@
+import fs from "fs"
 import { React } from '@vizality/webpack'
 import { file } from '@vizality/util'
 import PathManager from '../modules/PathManager'
@@ -44,7 +45,8 @@ const List = React.memo(({files}) => {
                                 height={imgDimensions.height}
                             />)
                         } else {
-                            openModal(() => <VideoModal file={currentFile} />)
+                            let stats = fs.statSync(files.path)
+                            openModal(() => <VideoModal file={currentFile} fileSize={stats.size} />)
                         }
                     }}>
                         Preview

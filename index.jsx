@@ -102,12 +102,15 @@ module.exports = class QuickImages extends Plugin {
     }
 
     patchDownloadVideoInFolderButton() {
-        console.log("patching videos")
+        this.log("Patching video context menu")
         patch("quick-video-download-context-menu", LazyVideo.prototype, "render", (args, res) => {
             const video = res.props
-            video.onContextMenu = e => contextMenu.openContextMenu(e, () => {
-                <LazyVideoContextMenu video={video.src.replace("?format=jpeg", "").replace("https://media.discordapp.net", "https://cdn.discordapp.com")} />
-            })
+            video.onContextMenu = e => {
+                e.stopPropagation();
+                contextMenu.openContextMenu(e, () => {
+                    <LazyVideoContextMenu video={video.src.replace("?format=jpeg", "").replace("https://media.discordapp.net", "https://cdn.discordapp.com")} />
+                })
+            }
             return res;
         });
     }
