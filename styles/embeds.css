@@ -1,0 +1,17 @@
+.qi-vertical-list{
+    display: flex;
+    flex-direction: column;
+}
+
+.qi-file-column{
+    padding: 5px 10px;
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.qi-file-column:hover{
+    background: var(--interactive-muted);
+    border-radius: 4px;
+}

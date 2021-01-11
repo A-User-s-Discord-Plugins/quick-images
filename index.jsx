@@ -27,6 +27,7 @@ module.exports = class QuickImages extends Plugin {
         //Inject styles
         this.injectStyles('./styles/index.css');
         this.injectStyles('./styles/settings.css');
+        this.injectStyles('./styles/embeds.css');
         
         //Inject button
         this.patchImageButton()

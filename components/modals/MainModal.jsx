@@ -282,7 +282,7 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         this.images.selected = image
     }
 
-    async uploadImage(fileContents, fileName, messsage) {
+    async uploadImage(fileContents, fileName, messsage = "") {
         const { upload } = await getModule('cancel', 'upload')
 
         let fileprop = new File([fileContents], fileName); // Transforms the Buffer from fileContents to a File component

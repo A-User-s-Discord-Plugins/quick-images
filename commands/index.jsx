@@ -1,17 +1,21 @@
-//yeah i stolen it from spotify-in-discord, pls check it out in https://github.com/vizality-community/spotify-in-discord
-import file from "./file"
+//yeah i stole it from spotify-in-discord, pls check it out in https://github.com/vizality-community/spotify-in-discord
+import upload from "./upload"
+import list from "./list"
+
 import QuickImagesModal from "../components/modals/MainModal"
 import { React } from '@vizality/webpack'
 const { open: openModal } = require('@vizality/modal')
 
-export const commandList = { file };
+export const commandList = { upload, list };
 
 export function register() {
     vizality.api.commands.registerCommand({
         command: 'quickimages',
         aliases: ["qi"],
         description: 'Do actions quickly with QuickImages',
-        usage: '{c} [file]',
+        options: [
+            { name: 'upload', required: false }
+        ],
         executor: args => {
             const subcommand = commandList[args[0]];
             if (!subcommand) {
@@ -33,7 +37,7 @@ export function register() {
                 return false;
             }
 
-            return subcommand.autocomplete(args.slice(1), this.getSettings());
+            return subcommand.autocomplete(args.slice(1));
         }
     });
 }

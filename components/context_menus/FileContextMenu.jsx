@@ -4,11 +4,10 @@ import { file } from '@vizality/util'
 import PathManager from "../../modules/PathManager"
 const { open: openModal } = require('@vizality/modal')
 
-import { Menu } from '@vizality/components'
+import { Menu, ImageModal } from '@vizality/components'
 import DeleteConfirmationModal from "../modals/deleteConfirmation"
 import RenameModal from "../modals/Rename"
 import VideoModal from "../custom/VideoModal"
-const ImageModal = getModuleByDisplayName('ImageModal')
 
 module.exports = class FileContextMenu extends React.Component {
     constructor(props) {
@@ -29,15 +28,12 @@ module.exports = class FileContextMenu extends React.Component {
                 <Menu.MenuItem
                     id="previre-file"
                     label="Preview"
-                    disabled={fileType === "Video"}
+                    // disabled={fileType === "Video"}
                     action={() => {
                         if (fileType === "Image"){
                             console.log(this.state.imageDimensions)
                             openModal(() => <ImageModal
-                                animated={false}
                                 className="image-1tIMwV"
-                                isTrusted={true}
-                                shouldAnimate={true}
                                 src={fileUrl}
                                 width={this.state.imageDimensions.width}
                                 height={this.state.imageDimensions.height}
