@@ -1,6 +1,5 @@
-import { React } from "@vizality/react"
 import { Button, Icon } from "@vizality/components"
-import { contextMenu } from '@vizality/webpack'
+import { React, contextMenu } from '@vizality/webpack'
 const { open: openModal } = require('@vizality/modal')
 
 import QuickImagesModal from "./modals/MainModal"

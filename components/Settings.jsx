@@ -1,5 +1,4 @@
-import { React } from "@vizality/react"
-import { getModule, getModuleByDisplayName } from '@vizality/webpack';
+import { getModule, getModuleByDisplayName, React } from '@vizality/webpack';
 import { Button } from "@vizality/components"
 import { SwitchItem, } from "@vizality/components/settings"
 import TextInputWithButton from "./custom/TextInputWithButton"
