@@ -23,7 +23,7 @@ const NativeImageContextMenu = getModule(m => m.default?.displayName === 'Native
 const LazyVideo = getModuleByDisplayName("LazyVideo")
 
 module.exports = class QuickImages extends Plugin {
-    onStart() {
+    start() {
         //Inject styles
         this.injectStyles('./styles/index.css');
         this.injectStyles('./styles/settings.css');
@@ -41,11 +41,7 @@ module.exports = class QuickImages extends Plugin {
         }
 
         //Register settings
-        vizality.api.settings.registerAddonSettings({
-            id: this.addonId,
-            heading: 'Quick Images',
-            render: Settings
-        })
+        this.registerSettings(Settings)
 
         //Inject commands
         CommandList.register()
