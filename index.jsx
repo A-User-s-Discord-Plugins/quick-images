@@ -3,7 +3,7 @@ import path from "path"
 import { Plugin } from '@vizality/entities'
 import { getModule, React, getModuleByDisplayName, contextMenu } from '@vizality/webpack'
 import { patch, unpatch } from '@vizality/patcher'
-import { Menu } from '@vizality/components'
+import { ContextMenu } from '@vizality/components'
 import { findInReactTree } from '@vizality/util/react'
 import DownloadImage from "./modules/DownloadImage"
 import PathManager from "./modules/PathManager"
@@ -77,7 +77,7 @@ module.exports = class QuickImages extends Plugin {
             let fileUrl = args[0].src
             res.props.children.unshift(
                 <>
-                    <Menu.MenuItem 
+                    <ContextMenu.Item 
                         id="download-image-to-folder"
                         label="Save image in QuickFolder"
                         action={() => {

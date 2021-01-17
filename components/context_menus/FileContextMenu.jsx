@@ -5,7 +5,7 @@ import { file } from '@vizality/util'
 import PathManager from "../../modules/PathManager"
 const { open: openModal } = require('@vizality/modal')
 
-import { Menu, ImageModal } from '@vizality/components'
+import { ContextMenu, ImageModal } from '@vizality/components'
 import DeleteConfirmationModal from "../modals/deleteConfirmation"
 import RenameModal from "../modals/Rename"
 import VideoModal from "../custom/VideoModal"
@@ -25,8 +25,8 @@ module.exports = class FileContextMenu extends React.Component {
         let fileUrl = file.url
         if (fileType === "Image") this.setImageDimensions(fileUrl)
         return <>
-            <Menu.Menu onClose={contextMenu.closeContextMenu}>
-                <Menu.MenuItem
+            <ContextMenu onClose={contextMenu.closeContextMenu}>
+                <ContextMenu.Item
                     id="previre-file"
                     label="Preview"
                     // disabled={fileType === "Video"}
@@ -45,18 +45,18 @@ module.exports = class FileContextMenu extends React.Component {
                         }
                     }}
                 />
-                <Menu.MenuItem
+                <ContextMenu.Item
                     id="rename-file"
                     label="Rename"
                     action={() => openModal(() => <RenameModal file={file} folder={this.props.folder}/>)}
                 />
-                <Menu.MenuItem
+                <ContextMenu.Item
                     id="delete-file"
                     label="Delete"
                     color="colorDanger"
                     action={() => openModal(() => <DeleteConfirmationModal file={file} />)}
                 />
-            </Menu.Menu>
+            </ContextMenu>
         </>
     }
 

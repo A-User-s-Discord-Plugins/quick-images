@@ -4,7 +4,7 @@ import { React, contextMenu } from '@vizality/webpack'
 import DownloadImage from "../../modules/DownloadImage"
 import PathManager from "../../modules/PathManager"
 
-import { Menu, Icon } from '@vizality/components'
+import { ContextMenu, Icon } from '@vizality/components'
 
 module.exports = class LazyVideoContextMenu extends React.Component {
     constructor(props){
@@ -16,8 +16,8 @@ module.exports = class LazyVideoContextMenu extends React.Component {
     
     render() {
         return <>
-            <Menu.Menu onClose={contextMenu.closeContextMenu}>
-                <Menu.MenuGroup
+            <ContextMenu onClose={contextMenu.closeContextMenu}>
+                <ContextMenu.Group
                     className="qi-lazyvideo-context-menu"
                     label={<>
                         <Icon name='CallVideoCamera' />
@@ -26,7 +26,7 @@ module.exports = class LazyVideoContextMenu extends React.Component {
                         </div>
                     </>}
                 >
-                    <Menu.MenuItem
+                    <ContextMenu.Item
                         id="download-video"
                         label="Save video in QuickFolder"
                         action={() => {
@@ -40,22 +40,22 @@ module.exports = class LazyVideoContextMenu extends React.Component {
                             })
                         }}
                     />
-                    <Menu.MenuItem
+                    <ContextMenu.Item
                         id="copy-video-url"
                         label="Copy video URL"
                         action={() => {
                             clipboard.writeText(this.fileurl)
                         }}
                     />
-                    <Menu.MenuItem
+                    <ContextMenu.Item
                         id="open-video-in-external-browser"
                         label="Open video"
                         action={() => {
                             shell.openExternal(this.fileurl)
                         }}
                     />
-                </Menu.MenuGroup>
-            </Menu.Menu>
+                </ContextMenu.Group>
+            </ContextMenu>
         </>
     }
 }
