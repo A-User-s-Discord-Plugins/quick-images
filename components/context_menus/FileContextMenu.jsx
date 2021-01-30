@@ -15,46 +15,56 @@ module.exports = class FileContextMenu extends React.Component {
         super(props)
 
         this.state = {
-            imageDimensions: {}
+            imageDimensions: {},
+            file: {},
+            fileUrl: "",
+            fileType: ""
         }
+
+        this.closeMenu = this.closeMenu.bind(this)
+
+        this.shouldRevoke = true
+    }
+
+    componentDidMount(){
+        this.isolateFile()
     }
 
     render() {
-        let fileType = PathManager.checkFileType(this.props.file.path, true)
-        let file = this.props.file
-        let fileUrl = file.url
-        if (fileType === "Image") this.setImageDimensions(fileUrl)
+        if (this.state.fileType === "Image") this.setImageDimensions(this.fileUrl)
         return <>
-            <ContextMenu onClose={contextMenu.closeContextMenu}>
+            <ContextMenu onClose={this.closeMenu}>
                 <ContextMenu.Item
                     id="previre-file"
                     label="Preview"
                     // disabled={fileType === "Video"}
                     action={() => {
-                        if (fileType === "Image"){
+                        if (this.fileType === "Image"){
+                            this.shouldRevoke = false
                             openModal(() => <ImageModal
                                 className="image-1tIMwV"
-                                src={fileUrl}
+                                src={this.state.fileUrl}
                                 width={this.state.imageDimensions.width}
                                 height={this.state.imageDimensions.height}
                             >
                             </ImageModal>)
                         } else {
-                            let stats = fs.statSync(file.path)
-                            openModal(() => <VideoModal file={file} fileSize={stats.size} />)
+                            this.shouldRevoke = false
+                            let stats = fs.statSync(this.state.file.path)
+                            openModal(() => <VideoModal file={this.state.file} fileSize={stats.size} />)
                         }
                     }}
                 />
                 <ContextMenu.Item
                     id="rename-file"
                     label="Rename"
-                    action={() => openModal(() => <RenameModal file={file} folder={this.props.folder}/>)}
+                    action={() => openModal(() => <RenameModal file={this.state.file} folder={this.props.folder}/>)}
                 />
                 <ContextMenu.Item
                     id="delete-file"
                     label="Delete"
                     color="colorDanger"
-                    action={() => openModal(() => <DeleteConfirmationModal file={file} />)}
+                    action={() => openModal(() => <DeleteConfirmationModal file={this.state.file} />)}
                 />
             </ContextMenu>
         </>
@@ -62,5 +72,20 @@ module.exports = class FileContextMenu extends React.Component {
 
     async setImageDimensions(img) {
         this.setState({ imageDimensions: await file.getImageDimensions(img) })
+    }
+
+    closeMenu(){
+        //URL.revokeObjectURL(this.state.file.url)
+        contextMenu.closeContextMenu()
+    }
+
+    async isolateFile(){
+        let fileRead = await file.getObjectURL(this.props.file.path)
+        this.setState({ file: fileRead[0] })
+        console.log("file:", this.state.file)
+        this.setState({ fileUrl: this.state.file.url})
+        console.log("fileUrl:", this.state.fileUrl)
+        this.setState({ fileType: PathManager.checkFileType(this.state.file.path, true) })
+        console.log("fileType:", this.state.fileType)
     }
 }

@@ -131,14 +131,14 @@ module.exports = class QuickImagesModal extends React.PureComponent {
         this.openImages()
     }
 
-    // componentWillUnmount(){
-    //     try {
-    //         this.state.allFiles.forEach(file => URL.revokeObjectURL(file.url));
-    //         this.setState({allFiles: []});
-    //     } catch (err) {
-    //         console.error(err)
-    //     }
-    // }
+    componentWillUnmount(){
+        try {
+            this.state.allFiles.forEach(file => URL.revokeObjectURL(file.url));
+            this.setState({allFiles: []});
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     async openImages(){
         let post;
@@ -212,39 +212,40 @@ module.exports = class QuickImagesModal extends React.PureComponent {
     }
 
     renderFiles(imageArray) {
-        return imageArray.map((file) => {
-            let filePath = file.path
+        return imageArray.map((fileObj) => {
+            let filePath = fileObj.path
             let filename = path.basename(filePath)
             let fileext = path.extname(filename)
             return <>
                 <div className="qi-item"
-                    onContextMenu={e => contextMenu.openContextMenu(e, () => <ContextMenu
-                        file={file}
-                        folder={folderPath}
-                    />
-                    )}>
+                    onContextMenu={(e) => {   
+                        contextMenu.openContextMenu(e, () => <ContextMenu
+                            file={fileObj}
+                            folder={folderPath}
+                        />)
+                    }}>
                     <figure className="qi-image-item"
                         onClick={(e) => {
                             e.stopPropagation();
-                            this.selectImage(file)
+                            this.selectImage(fileObj)
                             this.forceUpdate()
                         }}>
                         {
                             PathManager.checkFileType(filePath) === "Video"
                                 ?
-                                <video src={file.url}
+                                <video src={fileObj.url}
                                     autoplay="autoplay"
                                     muted
                                     loop
                                     className="qi-image-img"
                                 />
                                 :
-                                <img src={file.url}
+                                <img src={fileObj.url}
                                     className="qi-image-img"
                                 />
                         }
                         {
-                            this.images.selected == file ?
+                            this.images.selected == fileObj ?
                                 <div className="qi-image-item-select-indicator"><Icon name='CheckmarkCircle' /></div>
                                 :
                                 <></>
